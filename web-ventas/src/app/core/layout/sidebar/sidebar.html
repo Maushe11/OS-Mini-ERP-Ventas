@@ -1,0 +1,23 @@
+<div class="sidebar bg-dark text-white p-3" [class.active]="isOpen">
+
+  <!-- Botón para cerrar -->
+  <button class="btn btn-outline-light close-btn mb-3" (click)="closeSidebar()">
+    <i class="pi pi-times"></i>
+  </button>
+
+  <h4>Menú</h4>
+
+  <ul class="nav flex-column mt-3">
+    <li class="nav-item mb-2">
+      <a routerLink="/home" class="nav-link text-white">
+        <i class="pi pi-home"></i> Home
+      </a>
+    </li>
+    <li class="nav-item mb-2">
+      <a routerLink="/customer" class="nav-link text-white">
+        <i class="pi pi-users"></i> Clientes
+      </a>
+    </li>
+  </ul>
+
+</div>

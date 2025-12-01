@@ -1,0 +1,18 @@
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  position: fixed;
+  left: -250px;
+  top: 0;
+  z-index: 1000;
+  transition: left 0.3s ease;
+  background-color: #1f1f1f;
+
+  .close-btn {
+    float: right;
+  }
+}
+
+.sidebar.active {
+  left: 0;
+}
