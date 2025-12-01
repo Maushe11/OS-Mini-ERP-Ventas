@@ -1,24 +1,14 @@
-import { Component, inject, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { AuthService } from '../../services/auth-service';
-import { Router } from '@angular/router';
+import {Component, computed, inject} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {AuthService} from '../../services/auth-service';
+import {Router} from '@angular/router';
 
 @Component({
   standalone: true,
   selector: 'app-home',
   imports: [CommonModule],
-  template: `
-    <div class="container mt-5">
-      <h2>Home</h2>
-      <p>Estás logueado como <strong>admin</strong></p>
-
-      <div class="mt-3">
-        <button class="btn btn-secondary" (click)="logout()">
-          Cerrar sesión
-        </button>
-      </div>
-    </div>
-  `,
+  templateUrl: './home.html',
+  styleUrl: './home.scss',
 })
 export class HomeComponent {
   private authService = inject(AuthService);

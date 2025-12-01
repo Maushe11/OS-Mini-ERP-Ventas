@@ -1,0 +1,59 @@
+<p-panel header="Gestión de Clientes">
+
+  <!-- BUSCADOR -->
+  <p-inputgroup>
+    <input pInputText [ngModel]="filter()" (ngModelChange)="filter.set($event)" (keyup.enter)="onSearch()"
+           placeholder="Buscar por nombre o documento..."/>
+    <p-button label="Buscar" icon="pi pi-search" severity="contrast" (click)="onSearch()"/>
+  </p-inputgroup>
+
+  <p-divider/>
+
+  <!-- TABLA -->
+  <p-table
+    [value]="customers()"
+    [loading]="loading()"
+    sortMode="single"
+    (sortFunction)="onSort($event)"
+    [paginator]="false"
+    [lazy]="true"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="name">
+          Nombre
+          <p-sortIcon field="name"></p-sortIcon>
+        </th>
+        <th pSortableColumn="document">
+          Documento
+          <p-sortIcon field="document"></p-sortIcon>
+        </th>
+        <th>Email</th>
+        <th>Teléfono</th>
+        <th>Dirección</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-row>
+      <tr>
+        <td>{{ row.name }}</td>
+        <td>{{ row.document }}</td>
+        <td>{{ row.email }}</td>
+        <td>{{ row.phone }}</td>
+        <td>{{ row.address }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <!-- PAGINACIÓN -->
+  <p-paginator
+    [rows]="size()"
+    [totalRecords]="totalRecords()"
+    [rowsPerPageOptions]="[5, 10, 20]"
+    (onPageChange)="onPageChange($event)"
+    styleClass="mt-3"
+  ></p-paginator>
+
+</p-panel>
+
+<p-toast></p-toast>
