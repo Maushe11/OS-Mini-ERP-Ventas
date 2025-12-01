@@ -1,7 +1,7 @@
 package com.upc.oss.minierp.controller;
 
-import com.upc.oss.minierp.dto.AuthRequest;
-import com.upc.oss.minierp.dto.AuthResponse;
+import com.upc.oss.minierp.dto.request.AuthRequest;
+import com.upc.oss.minierp.dto.response.AuthResponse;
 import com.upc.oss.minierp.security.jwt.JwtUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

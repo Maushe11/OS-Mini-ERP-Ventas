@@ -1,7 +1,7 @@
 package com.upc.oss.minierp.controller;
 
-import com.upc.oss.minierp.dto.UserRequestDto;
-import com.upc.oss.minierp.dto.UserResponseDto;
+import com.upc.oss.minierp.dto.request.UserRequestDto;
+import com.upc.oss.minierp.dto.response.UserResponseDto;
 import com.upc.oss.minierp.service.IUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

@@ -1,4 +1,4 @@
-package com.upc.oss.minierp.dto;
+package com.upc.oss.minierp.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
