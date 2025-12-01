@@ -1,4 +1,4 @@
-package com.upc.oss.minierp.dto;
+package com.upc.oss.minierp.dto.response;
 
 import lombok.Data;
 

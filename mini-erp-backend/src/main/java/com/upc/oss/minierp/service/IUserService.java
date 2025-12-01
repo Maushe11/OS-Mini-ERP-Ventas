@@ -1,7 +1,7 @@
 package com.upc.oss.minierp.service;
 
-import com.upc.oss.minierp.dto.UserRequestDto;
-import com.upc.oss.minierp.dto.UserResponseDto;
+import com.upc.oss.minierp.dto.request.UserRequestDto;
+import com.upc.oss.minierp.dto.response.UserResponseDto;
 
 import java.util.List;
 
