@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -37,11 +38,20 @@ public class AuthController {
                             schema = @Schema(implementation = AuthRequest.class),
                             examples = {
                                     @ExampleObject(
-                                            name = "Credenciales válidas",
+                                            name = "Credenciales válidas: Admin",
                                             value = """
                                                     {
                                                         "username": "admin",
                                                         "password": "admin123"
+                                                    }
+                                                    """
+                                    ),
+                                    @ExampleObject(
+                                            name = "Credenciales válidas: User",
+                                            value = """
+                                                    {
+                                                        "username": "juan",
+                                                        "password": "Juan123"
                                                     }
                                                     """
                                     )
@@ -69,6 +79,8 @@ public class AuthController {
                     )
             }
     )
+    @ApiResponse(responseCode = "200", description = "Inicio de sesión exitoso")
+    @ApiResponse(responseCode = "401", description = "Credenciales inválidas")
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) {
 
