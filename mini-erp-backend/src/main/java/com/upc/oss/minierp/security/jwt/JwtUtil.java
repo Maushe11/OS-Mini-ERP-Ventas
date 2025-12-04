@@ -38,6 +38,7 @@ public class JwtUtil {
                 .orElse("ROLE_USER");
 
         claims.put("role", role);
+        claims.put("username", userDetails.getUsername());
 
         return Jwts.builder()
                 .setClaims(claims)
