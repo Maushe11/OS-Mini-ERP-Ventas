@@ -16,7 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
-@Tag(name = "Usuarios", description = "Endpoints para la gestión de usuarios")
+@Tag(name = "Usuarios", description = "Endpoints para la gestión de usuarios del sistema")
 public class UserController {
 
     private final IUserService userService;
