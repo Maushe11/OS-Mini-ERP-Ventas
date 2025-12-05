@@ -1,15 +1,16 @@
 import {environment} from '../../../environments/environment';
 
 export const API = {
-  CUSTOMER: {
-    SEARCH: `${environment.apiUrl}/customer/search`,
-    BASE: `${environment.apiUrl}/customer`
-  },
   USER: {
+    BASE: `${environment.apiUrl}/user`,
     LOGIN: `${environment.apiUrl}/auth/login`,
-    BASE: `${environment.apiUrl}/user`
+  },
+  CUSTOMER: {
+    BASE: `${environment.apiUrl}/customer`,
+    SEARCH: `${environment.apiUrl}/customer/search`
   },
   PRODUCT: {
-    BASE: `${environment.apiUrl}/product`
+    BASE: `${environment.apiUrl}/product`,
+    SEARCH: `${environment.apiUrl}/product/search`,
   }
 };

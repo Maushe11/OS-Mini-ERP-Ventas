@@ -3,11 +3,12 @@ import {NavigationEnd, Router, RouterOutlet} from '@angular/router';
 import {Header} from './core/layout/header/header';
 import {Sidebar} from './core/layout/sidebar/sidebar';
 import {filter} from 'rxjs';
+import {Toast} from 'primeng/toast';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, Header, Sidebar],
+  imports: [RouterOutlet, Header, Sidebar, Toast],
   templateUrl: 'app.html',
   styleUrl: './app.scss'
 })
