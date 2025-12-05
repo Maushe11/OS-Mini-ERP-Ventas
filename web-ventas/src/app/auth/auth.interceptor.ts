@@ -6,7 +6,8 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AuthService } from '../services/auth-service';
+import { AuthService } from '../core/services/auth-service';
+import {API} from '../core/config/api.config';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -16,6 +17,11 @@ export class AuthInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+
+    if (req.url === API.USER.LOGIN) {
+      return next.handle(req);
+    }
+
     const token = this.authService.getToken();
 
     if (token) {

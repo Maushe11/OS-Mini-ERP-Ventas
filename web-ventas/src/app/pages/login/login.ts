@@ -2,7 +2,7 @@ import {Component, inject, signal} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {Router} from '@angular/router';
-import {AuthService} from '../../services/auth-service';
+import {AuthService} from '../../core/services/auth-service';
 
 @Component({
   standalone: true,
@@ -15,7 +15,7 @@ export class LoginComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
 
-  // ADMIN: admin admin 123
+  // ADMIN: admin admin123
   // USER: juan juan123
 
   username = signal('admin');

@@ -1,4 +1,4 @@
-import {Component, effect, inject, OnInit, signal} from '@angular/core';
+import {Component, effect, inject, signal} from '@angular/core';
 import {CustomerService} from '../../core/services/customer.service';
 import {MessageService} from 'primeng/api';
 import {Toast} from 'primeng/toast';
@@ -29,7 +29,7 @@ import {Panel} from 'primeng/panel';
   templateUrl: './customer.html',
   styleUrl: './customer.scss',
 })
-export class Customer implements OnInit {
+export class Customer {
 
   private customerService = inject(CustomerService);
   private messageService = inject(MessageService);
@@ -53,10 +53,6 @@ export class Customer implements OnInit {
         this.sortBy()
       );
     });
-  }
-
-  ngOnInit(): void {
-    throw new Error("Method not implemented.");
   }
 
   loadCustomers(filter: string, page: number, size: number, sortBy: string) {

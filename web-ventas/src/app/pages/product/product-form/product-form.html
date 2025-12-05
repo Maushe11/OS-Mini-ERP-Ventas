@@ -1,0 +1,191 @@
+<p-panel [header]="id() ? 'Editar Producto' : 'Regitrar Producto'" styleClass="w-full">
+
+  <div class="grid">
+    <div class="col-12 md:col-8 lg:col-5 mx-auto">
+
+      <form (ngSubmit)="submit()" [formGroup]="form" class="p-fluid grid formgrid">
+
+        <!-- Nombre -->
+        <div class="field col-12">
+          <p-inputgroup>
+            <p-inputgroup-addon>
+              <i class="pi pi-tag"></i>
+            </p-inputgroup-addon>
+
+            <p-floatlabel variant="in">
+              <input pInputText
+                     id="name"
+                     formControlName="name"
+                     [invalid]="isInvalid('name')"
+              />
+              <label for="name">Nombre</label>
+            </p-floatlabel>
+          </p-inputgroup>
+
+          @if (isInvalid('name')) {
+            <p-message severity="error" size="small" variant="simple">
+              El nombre es obligatorio.
+            </p-message>
+          }
+        </div>
+
+        <!-- Descripción -->
+        <div class="field col-12">
+          <p-inputgroup>
+            <p-inputgroup-addon>
+              <i class="pi pi-align-left"></i>
+            </p-inputgroup-addon>
+
+            <p-floatlabel variant="in">
+          <textarea
+            pInputTextarea
+            id="description"
+            rows="3"
+            class="w-full"
+            formControlName="description"
+            [invalid]="isInvalid('description')"
+          ></textarea>
+              <label for="description">Descripción</label>
+            </p-floatlabel>
+          </p-inputgroup>
+
+          @if (isInvalid('description')) {
+            <p-message severity="error" size="small" variant="simple">
+              La descripción es obligatoria.
+            </p-message>
+          }
+        </div>
+
+        <!-- Precio -->
+        <div class="field col-12">
+          <p-inputgroup>
+            <p-inputgroup-addon>
+              <i class="pi pi-money-bill"></i>
+            </p-inputgroup-addon>
+
+            <p-floatlabel variant="in">
+              <p-inputNumber
+                inputId="price"
+                formControlName="price"
+                mode="currency"
+                currency="PEN"
+                [invalid]="isInvalid('price')"
+              ></p-inputNumber>
+              <label for="price">Precio</label>
+            </p-floatlabel>
+          </p-inputgroup>
+
+          @if (isInvalid('price')) {
+            <p-message severity="error" size="small" variant="simple">
+              @if (form.get('price')?.hasError('required')) {
+                El precio es obligatorio.
+              }
+              @if (form.get('price')?.hasError('min')) {
+                El precio debe ser mayor a 0.
+              }
+            </p-message>
+          }
+        </div>
+
+        <!-- Stock -->
+        <div class="field col-12">
+          <p-inputgroup>
+            <p-inputgroup-addon>
+              <i class="pi pi-box"></i>
+            </p-inputgroup-addon>
+
+            <p-floatlabel variant="in">
+              <p-inputNumber
+                inputId="stock"
+                formControlName="stock"
+                [invalid]="isInvalid('stock')"
+              ></p-inputNumber>
+              <label for="stock">Stock</label>
+            </p-floatlabel>
+          </p-inputgroup>
+
+          @if (isInvalid('stock')) {
+            <p-message severity="error" size="small" variant="simple">
+              @if (form.get('stock')?.hasError('required')) {
+                El stock es obligatorio.
+              }
+              @if (form.get('stock')?.hasError('min')) {
+                El stock no puede ser negativo.
+              }
+            </p-message>
+          }
+        </div>
+
+        <!-- Stock mínimo -->
+        <div class="field col-12">
+          <p-inputgroup>
+            <p-inputgroup-addon>
+              <i class="pi pi-exclamation-circle"></i>
+            </p-inputgroup-addon>
+
+            <p-floatlabel variant="in">
+              <p-inputNumber
+                inputId="minStock"
+                formControlName="minStock"
+                [invalid]="isInvalid('minStock')"
+              ></p-inputNumber>
+              <label for="minStock">Stock mínimo</label>
+            </p-floatlabel>
+          </p-inputgroup>
+
+          @if (isInvalid('minStock')) {
+            <p-message severity="error" size="small" variant="simple">
+              @if (form.get('minStock')?.hasError('required')) {
+                El stock mínimo es obligatorio.
+              }
+              @if (form.get('minStock')?.hasError('min')) {
+                El stock mínimo no puede ser negativo.
+              }
+            </p-message>
+          }
+        </div>
+
+        <!-- Activo -->
+        <div class="field col-12">
+          <p-inputgroup>
+            <div class="flex align-items-center pl-3">
+              <p-toggleswitch formControlName="active"></p-toggleswitch>
+              <label class="ml-2">Activo</label>
+            </div>
+          </p-inputgroup>
+        </div>
+
+        <div class="col-12 mt-4 flex gap-3">
+          <div class="flex-1">
+            <!-- Botón Guardar -->
+            <button
+              pButton
+              type="submit"
+              class="w-full"
+              severity="success"
+            >
+              <i class="pi pi-save" pButtonIcon></i>
+              <span pButtonLabel>Guardar</span>
+            </button>
+          </div>
+
+          <div class="flex-1">
+            <!-- Botón Cancelar -->
+            <p-button
+              label="Cancelar"
+              icon="pi pi-arrow-left"
+              severity="secondary"
+              (onClick)="goBack()"
+              styleClass="w-full"
+            ></p-button>
+          </div>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+</p-panel>
+
+<!--<p-toast></p-toast>-->

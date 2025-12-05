@@ -1,6 +1,6 @@
 import {computed, inject, Injectable, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {API} from '../core/config/api.config';
+import {API} from '../config/api.config';
 import {catchError, of, tap} from 'rxjs';
 
 @Injectable({providedIn: 'root'})
