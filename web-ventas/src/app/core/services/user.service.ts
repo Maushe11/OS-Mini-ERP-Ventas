@@ -5,11 +5,11 @@ import {API} from '../config/api.config';
 @Injectable({
   providedIn: 'root',
 })
-export class ProductService {
+export class UserService {
 
   private http = inject(HttpClient);
 
-  /** Buscar productos (paginado + filtros) */
+  /** Buscar usuarios (paginado + filtros) */
   search(filter: string, page: number, size: number, sortBy: string) {
     let params = new HttpParams()
       .set('filter', filter)
@@ -17,22 +17,22 @@ export class ProductService {
       .set('size', size)
       .set('sortBy', sortBy);
 
-    return this.http.get<any>(`${API.PRODUCT.SEARCH}`, {params});
+    return this.http.get<any>(`${API.USER.SEARCH}`, {params});
   }
 
-  /** Obtener producto por ID */
+  /** Obtener usuario por ID */
   getById(id: number) {
-    return this.http.get<any>(`${API.PRODUCT.BASE}/${id}`);
+    return this.http.get<any>(`${API.USER.BASE}/${id}`);
   }
 
-  /** Crear producto */
+  /** Crear usuario */
   create(body: any) {
-    return this.http.post<any>(API.PRODUCT.BASE, body);
+    return this.http.post<any>(API.USER.BASE, body);
   }
 
-  /** Actualizar producto */
+  /** Actualizar usuario */
   update(id: number, body: any) {
-    return this.http.put<any>(`${API.PRODUCT.BASE}/${id}`, body);
+    return this.http.put<any>(`${API.USER.BASE}/${id}`, body);
   }
 
 }

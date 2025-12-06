@@ -2,8 +2,9 @@ import {environment} from '../../../environments/environment';
 
 export const API = {
   USER: {
-    BASE: `${environment.apiUrl}/user`,
     LOGIN: `${environment.apiUrl}/auth/login`,
+    BASE: `${environment.apiUrl}/user`,
+    SEARCH: `${environment.apiUrl}/user/search`
   },
   CUSTOMER: {
     BASE: `${environment.apiUrl}/customer`,

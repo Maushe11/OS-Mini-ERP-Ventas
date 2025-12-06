@@ -1,52 +1,54 @@
-import {CustomerService} from '../../../core/services/customer.service';
-
 import {Component, effect, inject, signal} from '@angular/core';
-
-import {MessageService} from 'primeng/api';
-import {FormsModule} from '@angular/forms';
-import {TableModule} from 'primeng/table';
-import {Paginator} from 'primeng/paginator';
-import {Button} from 'primeng/button';
-import {InputText} from 'primeng/inputtext';
-import {Divider} from 'primeng/divider';
-import {InputGroup} from 'primeng/inputgroup';
-import {Panel} from 'primeng/panel';
+import {MessageService, PrimeTemplate} from 'primeng/api';
 import {Router} from '@angular/router';
+import {UserService} from '../../../core/services/user.service';
+import {Button} from 'primeng/button';
+import {Divider} from 'primeng/divider';
+import {FormsModule} from '@angular/forms';
+import {InputGroup} from 'primeng/inputgroup';
+import {InputText} from 'primeng/inputtext';
+import {Paginator} from 'primeng/paginator';
+import {Panel} from 'primeng/panel';
+import {TableModule} from 'primeng/table';
+import {Tag} from 'primeng/tag';
+import {DatePipe} from '@angular/common';
 
 @Component({
-  selector: 'app-customer-list',
+  selector: 'app-user-list',
   imports: [
-    FormsModule,
-    TableModule,
-    Paginator,
-    InputText,
-    Divider,
-    InputGroup,
     Button,
-    Panel
+    Divider,
+    FormsModule,
+    InputGroup,
+    InputText,
+    Paginator,
+    Panel,
+    PrimeTemplate,
+    TableModule,
+    Tag,
+    DatePipe
   ],
-  templateUrl: './customer-list.html',
-  styleUrl: './customer-list.scss',
+  templateUrl: './user-list.html',
+  styleUrl: './user-list.scss',
 })
-export class CustomerList {
+export class UserList {
 
-  private customerService = inject(CustomerService);
+  private userService = inject(UserService);
   private messageService = inject(MessageService);
   private router = inject(Router);
 
-  customers = signal<any[]>([]);
+  users = signal<any[]>([]);
   totalRecords = signal(0);
 
   filter = signal('');
   page = signal(0);
   size = signal(10);
-  sortBy = signal('name');
+  sortBy = signal('username');
   loading = signal(false);
 
   constructor() {
-    // Auto-refresh cuando cambia page/filter/sort/size
     effect(() => {
-      this.loadCustomers(
+      this.loadUsers(
         this.filter(),
         this.page(),
         this.size(),
@@ -55,14 +57,14 @@ export class CustomerList {
     });
   }
 
-  loadCustomers(filter: string, page: number, size: number, sortBy: string) {
+  loadUsers(filter: string, page: number, size: number, sortBy: string) {
     this.loading.set(true);
 
-    this.customerService
+    this.userService
       .search(filter, page, size, sortBy)
       .subscribe({
         next: (data) => {
-          this.customers.set(data.content);
+          this.users.set(data.content);
           this.totalRecords.set(data.totalElements);
           this.loading.set(false);
 
@@ -70,7 +72,7 @@ export class CustomerList {
             this.messageService.add({
               severity: 'info',
               summary: 'Sin resultados',
-              detail: 'No se encontraron clientes.'
+              detail: 'No se encontraron usuarios.'
             });
           }
         },
@@ -79,7 +81,7 @@ export class CustomerList {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: 'Ocurrió un problema al cargar los clientes.'
+            detail: 'Ocurrió un problema al cargar los usuarios.'
           });
         }
       });
@@ -99,11 +101,10 @@ export class CustomerList {
   }
 
   openCreateForm() {
-    this.router.navigate(['/customer/create']);
+    this.router.navigate(['/user/create']);
   }
 
   openEditForm(id: number) {
-    this.router.navigate([`/customer/edit/${id}`]);
+    this.router.navigate([`/user/edit/${id}`]);
   }
-
 }

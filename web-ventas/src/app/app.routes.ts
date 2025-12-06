@@ -6,6 +6,8 @@ import {ProductForm} from './pages/product/product-form/product-form';
 import {authGuard} from './auth/auth.guard';
 import {CustomerList} from './pages/customer/customer-list/customer-list';
 import {CustomerForm} from './pages/customer/customer-form/customer-form';
+import {UserList} from './pages/user/user-list/user-list';
+import {UserForm} from './pages/user/user-form/user-form';
 
 export const routes: Routes = [
   {
@@ -21,6 +23,25 @@ export const routes: Routes = [
     path: 'home',
     component: HomeComponent,
     title: 'Inicio',
+    canActivate: [authGuard],
+  },
+  // User
+  {
+    path: 'user',
+    component: UserList,
+    title: 'Listado de Usuarios',
+    canActivate: [authGuard],
+  },
+  {
+    path: 'user/create',
+    component: UserForm,
+    title: 'Registrar usuario',
+    canActivate: [authGuard],
+  },
+  {
+    path: 'user/edit/:id',
+    component: UserForm,
+    title: 'Editar usuario',
     canActivate: [authGuard],
   },
   // Customer

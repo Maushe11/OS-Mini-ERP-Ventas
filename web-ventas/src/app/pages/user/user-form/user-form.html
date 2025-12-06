@@ -1,0 +1,120 @@
+<p-panel [header]="id() ? 'Editar Usuario' : 'Regitrar Usuario'" styleClass="w-full">
+
+  <div class="grid">
+    <div class="col-12 md:col-8 lg:col-5 mx-auto">
+
+      <form (ngSubmit)="submit()" [formGroup]="form" class="p-fluid grid formgrid">
+
+        <!-- Username -->
+        <div class="field col-12">
+          <p-inputgroup>
+            <p-inputgroup-addon>
+              <i class="pi pi-user"></i>
+            </p-inputgroup-addon>
+
+            <p-floatlabel variant="in">
+              <input pInputText
+                     id="user_field"
+                     autocomplete="off"
+                     formControlName="username"
+                     [invalid]="isInvalid('username')"
+              />
+              <label for="user_field">Nombre de usuario</label>
+            </p-floatlabel>
+          </p-inputgroup>
+
+          @if (isInvalid('username')) {
+            <p-message severity="error" size="small" variant="simple">
+              El nombre de usuario es obligatorio.
+            </p-message>
+          }
+        </div>
+
+        <!-- Password -->
+        <div class="field col-12">
+          <p-inputgroup>
+            <p-inputgroup-addon>
+              <i class="pi pi-key"></i>
+            </p-inputgroup-addon>
+
+            <p-floatlabel variant="in">
+              <p-password id="password"
+                          formControlName="password"
+                          autocomplete="off"
+                          [feedback]="false"
+                          [showClear]="!id()"
+                          [toggleMask]="true"
+                          [invalid]="isInvalid('password')"
+              ></p-password>
+              <label for="name">Contraseña</label>
+            </p-floatlabel>
+          </p-inputgroup>
+
+          @if (isInvalid('password')) {
+            <p-message severity="error" size="small" variant="simple">
+              La contraseña es obligatoria.
+            </p-message>
+          }
+        </div>
+
+        <!-- Rol -->
+        <div class="field col-12">
+          <label class="block mb-2 font-medium">Rol</label>
+
+          <p-selectButton
+            [options]="roleOptions"
+            formControlName="role"
+            optionLabel="label"
+            optionValue="value"
+            fluid
+          ></p-selectButton>
+
+          @if (isInvalid('role')) {
+            <p-message severity="error" size="small" variant="simple">
+              El rol es obligatorio.
+            </p-message>
+          }
+        </div>
+
+        <!-- Activo -->
+        <div class="field col-12">
+          <p-inputgroup>
+            <div class="flex align-items-center pl-3">
+              <p-toggleswitch formControlName="active"></p-toggleswitch>
+              <label class="ml-2">Activo</label>
+            </div>
+          </p-inputgroup>
+        </div>
+
+        <div class="col-12 mt-4 flex gap-3">
+          <div class="flex-1">
+            <!-- Botón Guardar -->
+            <button
+              pButton
+              type="submit"
+              class="w-full"
+              severity="success"
+            >
+              <i class="pi pi-save" pButtonIcon></i>
+              <span pButtonLabel>Guardar</span>
+            </button>
+          </div>
+
+          <div class="flex-1">
+            <!-- Botón Cancelar -->
+            <p-button
+              label="Cancelar"
+              icon="pi pi-arrow-left"
+              severity="secondary"
+              (onClick)="goBack()"
+              styleClass="w-full"
+            ></p-button>
+          </div>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+</p-panel>
