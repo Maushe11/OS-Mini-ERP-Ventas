@@ -7,6 +7,10 @@ import com.upc.oss.minierp.mapper.UserMapper;
 import com.upc.oss.minierp.repository.UserRepository;
 import com.upc.oss.minierp.service.IUserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,14 +26,14 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public List<UserResponseDto> findAll() {
-        return userMapper.toResponseList(userRepository.findAll());
+        return userMapper.toDtoList(userRepository.findAll());
     }
 
     @Override
     public UserResponseDto findById(Long id) {
         UserEntity user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-        return userMapper.toResponse(user);
+        return userMapper.toDto(user);
     }
 
     @Override
@@ -38,7 +42,7 @@ public class UserServiceImpl implements IUserService {
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
 
         userRepository.save(user);
-        return userMapper.toResponse(user);
+        return userMapper.toDto(user);
     }
 
     @Override
@@ -53,7 +57,7 @@ public class UserServiceImpl implements IUserService {
         }
 
         userRepository.save(user);
-        return userMapper.toResponse(user);
+        return userMapper.toDto(user);
     }
 
     @Override
@@ -62,5 +66,19 @@ public class UserServiceImpl implements IUserService {
             throw new RuntimeException("Usuario no encontrado");
         }
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<UserResponseDto> search(String filter, int page, int size, String sortBy) {
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+
+        Page<UserEntity> result =
+                userRepository.findByUsernameContainingIgnoreCase(
+                        filter,
+                        pageable
+                );
+
+        return result.map(userMapper::toDto);
     }
 }
