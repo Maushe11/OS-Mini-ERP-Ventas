@@ -8,13 +8,13 @@ import java.util.List;
 
 public interface ICustomerService {
 
-    List<CustomerResponseDto> listAll();
-
-    CustomerResponseDto findById(Long id);
-
     CustomerResponseDto create(CustomerRequestDto dto);
 
     CustomerResponseDto update(Long id, CustomerRequestDto dto);
+
+    CustomerResponseDto findById(Long id);
+
+    List<CustomerResponseDto> listAll();
 
     void delete(Long id);
 
