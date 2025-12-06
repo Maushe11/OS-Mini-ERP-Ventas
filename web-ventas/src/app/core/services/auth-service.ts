@@ -1,50 +1,134 @@
-import {computed, inject, Injectable, signal} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {API} from '../config/api.config';
-import {catchError, of, tap} from 'rxjs';
+import { Injectable, signal, computed, effect, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { API } from '../config/api.config';
+import { catchError, of, tap } from 'rxjs';
+import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class AuthService {
 
   private http = inject(HttpClient);
+  private router = inject(Router);
+  private messageService = inject(MessageService);
 
   private _token = signal<string | null>(this.loadTokenFromStorage());
+  private _remainingTime = signal<number>(0);
 
-  isAuthenticated = computed(() => !!this._token());
+  readonly isAuthenticated = computed(() => !!this._token());
+  readonly remainingTime = computed(() => this._remainingTime()); // para UI (opcional)
 
-  private loadTokenFromStorage(): string | null {
+  private countdownInterval: any;
+
+  constructor() {
+    // Si había token guardado, iniciar vigilancia
+    const token = this._token();
+    if (token) {
+      this.startWatcher(token);
+    }
+
+    // Effect reactivo: cuando remainingTime llegue a 0 → logout automático
+    effect(() => {
+      if (this._remainingTime() === 0 && this._token() !== null) {
+        this.handleTokenExpired();
+      }
+    });
+  }
+
+  // -------------------------------------------------------------------
+  // LOGIN
+  // -------------------------------------------------------------------
+  login(username: string, password: string) {
+    return this.http.post<{ token: string }>(API.USER.LOGIN, { username, password })
+      .pipe(
+        tap(res => {
+          this._token.set(res.token);
+          this.saveTokenToStorage(res.token);
+          this.startWatcher(res.token);
+        }),
+        catchError(() => of(null))
+      );
+  }
+
+  // LOGOUT
+  logout() {
+    this._token.set(null);
+    this._remainingTime.set(0);
+    localStorage.removeItem('token');
+
+    if (this.countdownInterval) {
+      clearInterval(this.countdownInterval);
+    }
+  }
+
+  getToken() {
+    return this._token();
+  }
+
+  // -------------------------------------------------------------------
+  // DECODIFICAR JWT
+  // -------------------------------------------------------------------
+  private decodeToken(token: string): any {
+    try {
+      const payload = token.split('.')[1];
+      return JSON.parse(atob(payload));
+    } catch {
+      return null;
+    }
+  }
+
+  // -------------------------------------------------------------------
+  // WATCHER DE EXPIRACIÓN
+  // -------------------------------------------------------------------
+  private startWatcher(token: string) {
+    const decoded = this.decodeToken(token);
+    if (!decoded?.exp) return;
+
+    const expirationMs = decoded.exp * 1000;
+    const now = Date.now();
+    const secondsLeft = Math.floor((expirationMs - now) / 1000);
+
+    // Token ya expiró
+    if (secondsLeft <= 0) {
+      this._remainingTime.set(0);
+      return;
+    }
+
+    this._remainingTime.set(secondsLeft);
+
+    if (this.countdownInterval) clearInterval(this.countdownInterval);
+
+    // ⏱ Countdown real cada segundo
+    this.countdownInterval = setInterval(() => {
+      const updated = this._remainingTime() - 1;
+      this._remainingTime.set(updated > 0 ? updated : 0);
+    }, 1000);
+  }
+
+  // -------------------------------------------------------------------
+  // ACCIÓN CUANDO EXPIRE
+  // -------------------------------------------------------------------
+  private handleTokenExpired() {
+    this.logout();
+
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'Sesión expirada',
+      detail: 'Por favor inicia sesión nuevamente.'
+    });
+
+    this.router.navigate(['/login']);
+  }
+
+  // -------------------------------------------------------------------
+  // STORAGE
+  // -------------------------------------------------------------------
+  private loadTokenFromStorage() {
     return localStorage.getItem('token');
   }
 
   private saveTokenToStorage(token: string | null) {
-    if (token) {
-      localStorage.setItem('token', token);
-    } else {
-      localStorage.removeItem('token');
-    }
-  }
-
-  login(username: string, password: string) {
-    const body = {username, password};
-
-    return this.http.post<{ token: string }>(API.USER.LOGIN, body)
-      .pipe(
-        tap((response) => {
-          this._token.set(response.token);
-          this.saveTokenToStorage(response.token);
-        }),
-        catchError(() => {
-          return of(null);
-        })
-      );
-  }
-
-  logout(): void {
-    this._token.set(null);
-    this.saveTokenToStorage(null);
-  }
-
-  getToken(): string | null {
-    return this._token();
+    if (token) localStorage.setItem('token', token);
+    else localStorage.removeItem('token');
   }
 }
