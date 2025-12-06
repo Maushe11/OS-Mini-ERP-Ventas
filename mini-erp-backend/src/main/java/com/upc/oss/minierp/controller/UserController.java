@@ -1,7 +1,7 @@
 package com.upc.oss.minierp.controller;
 
-import com.upc.oss.minierp.dto.request.UserRequestDto;
-import com.upc.oss.minierp.dto.response.ProductResponseDto;
+import com.upc.oss.minierp.dto.request.UserCreateRequestDto;
+import com.upc.oss.minierp.dto.request.UserUpdateRequestDto;
 import com.upc.oss.minierp.dto.response.UserResponseDto;
 import com.upc.oss.minierp.service.IUserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -51,7 +51,7 @@ public class UserController {
     )
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public ResponseEntity<UserResponseDto> create(@Valid @RequestBody UserRequestDto dto) {
+    public ResponseEntity<UserResponseDto> create(@Valid @RequestBody UserCreateRequestDto dto) {
         return ResponseEntity.ok(userService.create(dto));
     }
 
@@ -62,7 +62,7 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<UserResponseDto> update(@PathVariable Long id,
-                                                  @Valid @RequestBody UserRequestDto dto) {
+                                                  @Valid @RequestBody UserUpdateRequestDto dto) {
         return ResponseEntity.ok(userService.update(id, dto));
     }
 

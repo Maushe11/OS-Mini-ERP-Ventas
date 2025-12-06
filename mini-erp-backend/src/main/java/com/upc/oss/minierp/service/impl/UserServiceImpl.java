@@ -1,6 +1,7 @@
 package com.upc.oss.minierp.service.impl;
 
-import com.upc.oss.minierp.dto.request.UserRequestDto;
+import com.upc.oss.minierp.dto.request.UserCreateRequestDto;
+import com.upc.oss.minierp.dto.request.UserUpdateRequestDto;
 import com.upc.oss.minierp.dto.response.UserResponseDto;
 import com.upc.oss.minierp.entity.UserEntity;
 import com.upc.oss.minierp.mapper.UserMapper;
@@ -37,7 +38,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public UserResponseDto create(UserRequestDto dto) {
+    public UserResponseDto create(UserCreateRequestDto dto) {
         UserEntity user = userMapper.toEntity(dto);
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
 
@@ -46,7 +47,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public UserResponseDto update(Long id, UserRequestDto dto) {
+    public UserResponseDto update(Long id, UserUpdateRequestDto dto) {
         UserEntity user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 

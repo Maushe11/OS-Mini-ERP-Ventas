@@ -1,6 +1,7 @@
 package com.upc.oss.minierp.service;
 
-import com.upc.oss.minierp.dto.request.UserRequestDto;
+import com.upc.oss.minierp.dto.request.UserCreateRequestDto;
+import com.upc.oss.minierp.dto.request.UserUpdateRequestDto;
 import com.upc.oss.minierp.dto.response.UserResponseDto;
 import org.springframework.data.domain.Page;
 
@@ -8,9 +9,9 @@ import java.util.List;
 
 public interface IUserService {
 
-    UserResponseDto create(UserRequestDto dto);
+    UserResponseDto create(UserCreateRequestDto dto);
 
-    UserResponseDto update(Long id, UserRequestDto dto);
+    UserResponseDto update(Long id, UserUpdateRequestDto dto);
 
     List<UserResponseDto> findAll();
 
