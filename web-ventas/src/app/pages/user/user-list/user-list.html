@@ -1,20 +1,10 @@
-<p-panel header="Gestión de Productos">
+<p-panel header="Gestión de Usuarios">
 
   <!-- BUSCADOR -->
   <p-inputgroup>
-    <input
-      pInputText
-      [ngModel]="filter()"
-      (ngModelChange)="filter.set($event)"
-      (keyup.enter)="onSearch()"
-      placeholder="Buscar por nombre..."
-    />
-    <p-button
-      label="Buscar"
-      icon="pi pi-search"
-      severity="contrast"
-      (click)="onSearch()"
-    />
+    <input pInputText [ngModel]="filter()" (ngModelChange)="filter.set($event)" (keyup.enter)="onSearch()"
+           placeholder="Buscar por username..."/>
+    <p-button label="Buscar" icon="pi pi-search" severity="contrast" (click)="onSearch()"/>
   </p-inputgroup>
 
   <p-divider/>
@@ -22,7 +12,7 @@
   <!-- BOTÓN PARA AGREGAR PRODUCTO -->
   <div class="mb-3">
     <p-button
-      label="Nuevo Producto"
+      label="Nuevo Usuario"
       icon="pi pi-plus"
       (click)="openCreateForm()"
       severity="success"
@@ -33,7 +23,7 @@
 
   <!-- TABLA -->
   <p-table
-    [value]="products()"
+    [value]="users()"
     [loading]="loading()"
     sortMode="single"
     (sortFunction)="onSort($event)"
@@ -42,17 +32,13 @@
   >
     <ng-template pTemplate="header">
       <tr>
-        <th pSortableColumn="name">
-          Nombre
-          <p-sortIcon field="name"></p-sortIcon>
+        <th pSortableColumn="username">
+          Username
+          <p-sortIcon field="username"></p-sortIcon>
         </th>
-        <th>Descripción</th>
-        <th pSortableColumn="price">
-          Precio
-          <p-sortIcon field="price"></p-sortIcon>
-        </th>
-        <th>Stock</th>
-        <th>Stock Mín.</th>
+        <th>Rol</th>
+        <th>F. Creación</th>
+        <th>F. Actualización</th>
         <th>Activo</th>
         <th>Acciones</th>
       </tr>
@@ -60,11 +46,10 @@
 
     <ng-template pTemplate="body" let-row>
       <tr>
-        <td>{{ row.name }}</td>
-        <td>{{ row.description }}</td>
-        <td>S/ {{ row.price | number : '1.2-2' }}</td>
-        <td>{{ row.stock }}</td>
-        <td>{{ row.minStock }}</td>
+        <td>{{ row.username }}</td>
+        <td>{{ row.role }}</td>
+        <td>{{ row.createdAt | date:'dd/MM/yyyy HH:mm' }}</td>
+        <td>{{ row.updatedAt | date:'dd/MM/yyyy HH:mm' }}</td>
         <td>
           @if (row.active) {
             <p-tag
@@ -90,7 +75,7 @@
     </ng-template>
   </p-table>
 
-  <!-- PAGINADOR -->
+  <!-- PAGINACIÓN -->
   <p-paginator
     [rows]="size()"
     [totalRecords]="totalRecords()"
