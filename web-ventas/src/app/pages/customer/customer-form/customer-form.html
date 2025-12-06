@@ -1,0 +1,176 @@
+<p-panel [header]="id() ? 'Editar Cliente' : 'Registrar Cliente'" styleClass="w-full">
+
+  <div class="grid">
+    <div class="col-12 md:col-8 lg:col-5 mx-auto">
+
+      <form (ngSubmit)="submit()" [formGroup]="form" class="p-fluid grid formgrid">
+
+        <!-- Documento -->
+        <div class="field col-12">
+          <p-inputgroup>
+            <p-inputgroup-addon>
+              <i class="pi pi-id-card"></i>
+            </p-inputgroup-addon>
+
+            <p-floatlabel variant="in">
+              <input
+                pInputText
+                id="document"
+                formControlName="document"
+                [invalid]="isInvalid('document')"
+              />
+              <label for="document">Documento</label>
+            </p-floatlabel>
+          </p-inputgroup>
+
+          @if (isInvalid('document')) {
+            <p-message severity="error" size="small" variant="simple">
+              El documento es obligatorio.
+            </p-message>
+          }
+        </div>
+
+        <!-- Nombre -->
+        <div class="field col-12">
+          <p-inputgroup>
+            <p-inputgroup-addon>
+              <i class="pi pi-user"></i>
+            </p-inputgroup-addon>
+
+            <p-floatlabel variant="in">
+              <input
+                pInputText
+                id="name"
+                formControlName="name"
+                [invalid]="isInvalid('name')"
+              />
+              <label for="name">Nombre</label>
+            </p-floatlabel>
+          </p-inputgroup>
+
+          @if (isInvalid('name')) {
+            <p-message severity="error" size="small" variant="simple">
+              El nombre es obligatorio.
+            </p-message>
+          }
+        </div>
+
+        <!-- Email -->
+        <div class="field col-12">
+          <p-inputgroup>
+            <p-inputgroup-addon>
+              <i class="pi pi-envelope"></i>
+            </p-inputgroup-addon>
+
+            <p-floatlabel variant="in">
+              <input
+                pInputText
+                id="email"
+                type="email"
+                formControlName="email"
+                [invalid]="isInvalid('email')"
+              />
+              <label for="email">Correo electrónico</label>
+            </p-floatlabel>
+          </p-inputgroup>
+
+          @if (isInvalid('email')) {
+            <p-message severity="error" size="small" variant="simple">
+              @if (form.get('email')?.hasError('required')) {
+                El correo es obligatorio.
+              }
+              @if (form.get('email')?.hasError('email')) {
+                Debe ingresar un correo válido.
+              }
+            </p-message>
+          }
+        </div>
+
+        <!-- Teléfono -->
+        <div class="field col-12">
+          <p-inputgroup>
+            <p-inputgroup-addon>
+              <i class="pi pi-phone"></i>
+            </p-inputgroup-addon>
+
+            <p-floatlabel variant="in">
+              <input
+                pInputText
+                id="phone"
+                formControlName="phone"
+                [invalid]="isInvalid('phone')"
+              />
+              <label for="phone">Celular</label>
+            </p-floatlabel>
+          </p-inputgroup>
+
+          @if (isInvalid('phone')) {
+            <p-message severity="error" size="small" variant="simple">
+              El celular es obligatorio.
+            </p-message>
+          }
+        </div>
+
+        <!-- Dirección -->
+        <div class="field col-12">
+          <p-inputgroup>
+            <p-inputgroup-addon>
+              <i class="pi pi-map-marker"></i>
+            </p-inputgroup-addon>
+
+            <p-floatlabel variant="in">
+              <textarea
+                pInputTextarea
+                id="address"
+                rows="3"
+                class="w-full"
+                formControlName="address"
+                [invalid]="isInvalid('address')"
+              ></textarea>
+              <label for="address">Dirección</label>
+            </p-floatlabel>
+          </p-inputgroup>
+
+          @if (isInvalid('address')) {
+            <p-message severity="error" size="small" variant="simple">
+              La dirección es obligatoria.
+            </p-message>
+          }
+        </div>
+
+        <!-- Botones -->
+        <div class="col-12 mt-4 flex gap-3">
+
+          <div class="flex-1">
+            <button
+              pButton
+              type="submit"
+              class="w-full"
+              severity="success"
+            >
+              <i class="pi pi-save" pButtonIcon></i>
+              <span pButtonLabel>Guardar</span>
+            </button>
+          </div>
+
+          <div class="flex-1">
+            <button
+              pButton
+              type="button"
+              class="w-full"
+              severity="secondary"
+              (click)="goBack()"
+            >
+              <i class="pi pi-arrow-left" pButtonIcon></i>
+              <span pButtonLabel>Cancelar</span>
+            </button>
+          </div>
+
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+</p-panel>

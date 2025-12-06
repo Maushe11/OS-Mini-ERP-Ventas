@@ -9,7 +9,7 @@ export class ProductService {
 
   private http = inject(HttpClient);
 
-  /** Buscar productos (paginado + filtros), igual que CustomerService */
+  /** Buscar productos (paginado + filtros) */
   search(filter: string, page: number, size: number, sortBy: string) {
     let params = new HttpParams()
       .set('filter', filter)

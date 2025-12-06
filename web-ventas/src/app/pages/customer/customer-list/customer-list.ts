@@ -1,5 +1,7 @@
+import {CustomerService} from '../../../core/services/customer.service';
+
 import {Component, effect, inject, signal} from '@angular/core';
-import {CustomerService} from '../../core/services/customer.service';
+
 import {MessageService} from 'primeng/api';
 import {Toast} from 'primeng/toast';
 import {FormsModule} from '@angular/forms';
@@ -10,10 +12,10 @@ import {InputText} from 'primeng/inputtext';
 import {Divider} from 'primeng/divider';
 import {InputGroup} from 'primeng/inputgroup';
 import {Panel} from 'primeng/panel';
+import {Router} from '@angular/router';
 
 @Component({
-  standalone: true,
-  selector: 'app-customer',
+  selector: 'app-customer-list',
   imports: [
     Toast,
     FormsModule,
@@ -25,14 +27,14 @@ import {Panel} from 'primeng/panel';
     Button,
     Panel
   ],
-  providers: [CustomerService, MessageService],
-  templateUrl: './customer.html',
-  styleUrl: './customer.scss',
+  templateUrl: './customer-list.html',
+  styleUrl: './customer-list.scss',
 })
-export class Customer {
+export class CustomerList {
 
   private customerService = inject(CustomerService);
   private messageService = inject(MessageService);
+  private router = inject(Router);
 
   customers = signal<any[]>([]);
   totalRecords = signal(0);
@@ -96,6 +98,14 @@ export class Customer {
 
   onSort(event: any) {
     this.sortBy.set(event.field);
+  }
+
+  openCreateForm() {
+    this.router.navigate(['/customer/create']);
+  }
+
+  openEditForm(id: number) {
+    this.router.navigate([`/customer/edit/${id}`]);
   }
 
 }

@@ -80,7 +80,7 @@ export class ProductList {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: 'Error cargando productos'
+            detail: 'Ocurrió un problema al cargar los productos.'
           });
         }
       });

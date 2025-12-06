@@ -1,64 +1,56 @@
 import {Component, effect, inject, signal} from '@angular/core';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
-
 import {ActivatedRoute, Router} from '@angular/router';
-import {ProductService} from '../../../core/services/product.service';
-import {MessageService} from 'primeng/api';
 
 import {CustomerService} from '../../../core/services/customer.service';
+import {MessageService} from 'primeng/api';
 
 import {Panel} from 'primeng/panel';
-import {Button, ButtonDirective, ButtonIcon, ButtonLabel} from 'primeng/button';
 import {InputText} from 'primeng/inputtext';
 import {Textarea} from 'primeng/textarea';
-import {InputNumber} from 'primeng/inputnumber';
 import {InputGroupModule} from 'primeng/inputgroup';
 import {InputGroupAddonModule} from 'primeng/inputgroupaddon';
 import {FloatLabel} from 'primeng/floatlabel';
-import {ToggleSwitch} from 'primeng/toggleswitch';
 import {Message} from 'primeng/message';
+import {ButtonDirective, ButtonIcon, ButtonLabel} from 'primeng/button';
 
 @Component({
   standalone: true,
-  selector: 'app-product-form',
+  selector: 'app-customer-form',
   imports: [
     ReactiveFormsModule,
     Panel,
-    Button,
     InputText,
     Textarea,
-    InputNumber,
     InputGroupModule,
     InputGroupAddonModule,
     FloatLabel,
-    ToggleSwitch,
     Message,
-    ButtonLabel,
     ButtonDirective,
-    ButtonIcon
+    ButtonIcon,
+    ButtonLabel
   ],
   providers: [CustomerService],
-  templateUrl: './product-form.html',
-  styleUrl: './product-form.scss',
+  templateUrl: './customer-form.html',
+  styleUrl: './customer-form.scss',
 })
-export class ProductForm {
+export class CustomerForm {
 
   private fb = inject(FormBuilder);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private productService = inject(ProductService);
+  private customerService = inject(CustomerService);
   private messageService = inject(MessageService);
 
   id = signal<number | null>(null);
   loading = signal(false);
 
   form = this.fb.group({
+    document: ['', Validators.required],
     name: ['', Validators.required],
-    description: ['', Validators.required],
-    price: [0, [Validators.required, Validators.min(0.1)]],
-    stock: [0, [Validators.required, Validators.min(0)]],
-    minStock: [0, [Validators.required, Validators.min(0)]],
-    active: [true]
+    email: ['', [Validators.required, Validators.email]],
+    phone: ['', Validators.required],
+    address: ['', Validators.required]
   });
 
   isInvalid(control: string): boolean {
@@ -71,17 +63,17 @@ export class ProductForm {
       const paramId = this.route.snapshot.paramMap.get('id');
       if (paramId) {
         this.id.set(Number(paramId));
-        this.loadProduct(Number(paramId));
+        this.loadCustomer(Number(paramId));
       }
     });
   }
 
-  loadProduct(id: number) {
+  loadCustomer(id: number) {
     this.loading.set(true);
 
-    this.productService.getById(id).subscribe({
-      next: (product) => {
-        this.form.patchValue(product);
+    this.customerService.getById(id).subscribe({
+      next: (customer) => {
+        this.form.patchValue(customer);
         this.loading.set(false);
       },
       error: () => {
@@ -89,7 +81,7 @@ export class ProductForm {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'No se pudo cargar el producto'
+          detail: 'No se pudo cargar el cliente'
         });
       }
     });
@@ -105,8 +97,8 @@ export class ProductForm {
     const data = this.form.value;
 
     const request$ = this.id()
-      ? this.productService.update(this.id()!, data)
-      : this.productService.create(data);
+      ? this.customerService.update(this.id()!, data)
+      : this.customerService.create(data);
 
     request$.subscribe({
       next: () => {
@@ -114,10 +106,10 @@ export class ProductForm {
         this.messageService.add({
           severity: 'success',
           summary: 'Éxito',
-          detail: this.id() ? 'Producto actualizado' : 'Producto creado'
+          detail: this.id() ? 'Cliente actualizado' : 'Cliente registrado'
         });
 
-        this.router.navigate(['/product']);
+        this.router.navigate(['/customer']);
       },
       error: () => {
         this.loading.set(false);
@@ -131,7 +123,7 @@ export class ProductForm {
   }
 
   goBack() {
-    this.router.navigate(['/product']);
+    this.router.navigate(['/customer']);
   }
 
 }
