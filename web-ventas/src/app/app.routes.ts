@@ -4,6 +4,7 @@ import {LoginComponent} from './pages/login/login';
 import {ProductList} from './pages/product/product-list/product-list';
 import {ProductForm} from './pages/product/product-form/product-form';
 import {authGuard} from './auth/auth.guard';
+import {roleGuard} from './auth/role.guard';
 import {CustomerList} from './pages/customer/customer-list/customer-list';
 import {CustomerForm} from './pages/customer/customer-form/customer-form';
 import {UserList} from './pages/user/user-list/user-list';
@@ -30,19 +31,19 @@ export const routes: Routes = [
     path: 'user',
     component: UserList,
     title: 'Listado de Usuarios',
-    canActivate: [authGuard],
+    canActivate: [authGuard, roleGuard('ROLE_ADMIN')],
   },
   {
     path: 'user/create',
     component: UserForm,
     title: 'Registrar usuario',
-    canActivate: [authGuard],
+    canActivate: [authGuard, roleGuard('ROLE_ADMIN')],
   },
   {
     path: 'user/edit/:id',
     component: UserForm,
     title: 'Editar usuario',
-    canActivate: [authGuard],
+    canActivate: [authGuard, roleGuard('ROLE_ADMIN')],
   },
   // Customer
   {
