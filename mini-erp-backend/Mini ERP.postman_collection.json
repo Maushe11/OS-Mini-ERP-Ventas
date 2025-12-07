@@ -486,6 +486,51 @@
 							"body": "{\n    \"status\": 403,\n    \"error\": \"Forbidden\",\n    \"message\": \"No tienes permisos para realizar esta acción.\",\n    \"errors\": [],\n    \"timestamp\": \"2025-11-28T00:14:07.202611700\"\n}"
 						}
 					]
+				},
+				{
+					"name": "search",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}user/search?filter&page=0&size=10&sortBy=username",
+							"host": [
+								"{{baseURL}}user"
+							],
+							"path": [
+								"search"
+							],
+							"query": [
+								{
+									"key": "filter",
+									"value": null
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								},
+								{
+									"key": "sortBy",
+									"value": "username"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -513,7 +558,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"juan\",\r\n    \"password\": \"juan123\"\r\n}",
+							"raw": "{\r\n    \"username\": \"admin\",\r\n    \"password\": \"admin123\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -689,23 +734,1036 @@
 		},
 		{
 			"name": "Customer",
-			"item": []
+			"item": [
+				{
+					"name": "search",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"aaa\",\r\n  \"password\": \"123123\",\r\n  \"role\": \"ADMIN\",\r\n  \"active\": true\r\n}\r\n"
+						},
+						"url": {
+							"raw": "{{baseURL}}customer/search?filter&page=0&size=10&sortBy=name",
+							"host": [
+								"{{baseURL}}customer"
+							],
+							"path": [
+								"search"
+							],
+							"query": [
+								{
+									"key": "filter",
+									"value": null
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								},
+								{
+									"key": "sortBy",
+									"value": "name"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "Product",
-			"item": []
+			"item": [
+				{
+					"name": "list",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"aaa\",\r\n  \"password\": \"123123\",\r\n  \"role\": \"ADMIN\",\r\n  \"active\": true\r\n}\r\n"
+						},
+						"url": {
+							"raw": "{{baseURL}}product",
+							"host": [
+								"{{baseURL}}product"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"username\": \"aaa\",\r\n  \"password\": \"123123\",\r\n  \"role\": \"ADMIN\",\r\n  \"active\": true\r\n}\r\n"
+								},
+								"url": {
+									"raw": "{{baseURL}}product",
+									"host": [
+										"{{baseURL}}product"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 04 Dec 2025 03:29:56 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"idProduct\": null,\n        \"name\": \"Arroz Costeño 5kg\",\n        \"description\": \"Arroz extra superior de 5 kilogramos\",\n        \"price\": 22.5,\n        \"stock\": 80,\n        \"minStock\": 10,\n        \"active\": true\n    },\n    {\n        \"idProduct\": null,\n        \"name\": \"Aceite Primor 1L\",\n        \"description\": \"Aceite vegetal de 1 litro\",\n        \"price\": 12.9,\n        \"stock\": 60,\n        \"minStock\": 8,\n        \"active\": true\n    },\n    {\n        \"idProduct\": null,\n        \"name\": \"Azúcar Rubia 1kg\",\n        \"description\": \"Azúcar rubia granulada de 1 kilogramo\",\n        \"price\": 4.5,\n        \"stock\": 120,\n        \"minStock\": 15,\n        \"active\": true\n    },\n    {\n        \"idProduct\": null,\n        \"name\": \"Leche Gloria Entera 400g\",\n        \"description\": \"Leche evaporada entera en lata 400g\",\n        \"price\": 4.2,\n        \"stock\": 150,\n        \"minStock\": 20,\n        \"active\": true\n    },\n    {\n        \"idProduct\": null,\n        \"name\": \"Fideos Don Vittorio 500g\",\n        \"description\": \"Fideos spaghetti marca Don Vittorio\",\n        \"price\": 3.8,\n        \"stock\": 100,\n        \"minStock\": 15,\n        \"active\": true\n    },\n    {\n        \"idProduct\": null,\n        \"name\": \"Atún Florida 170g\",\n        \"description\": \"Atún en aceite vegetal 170 gramos\",\n        \"price\": 6.5,\n        \"stock\": 75,\n        \"minStock\": 10,\n        \"active\": true\n    },\n    {\n        \"idProduct\": null,\n        \"name\": \"Galletas Field Soda 12p\",\n        \"description\": \"Paquete de galletas de soda Field 12 unidades\",\n        \"price\": 5.5,\n        \"stock\": 90,\n        \"minStock\": 12,\n        \"active\": true\n    },\n    {\n        \"idProduct\": null,\n        \"name\": \"Jabón Marsella 250g\",\n        \"description\": \"Jabón para ropa de 250 gramos\",\n        \"price\": 2.8,\n        \"stock\": 140,\n        \"minStock\": 20,\n        \"active\": true\n    },\n    {\n        \"idProduct\": null,\n        \"name\": \"Detergente Ace 1kg\",\n        \"description\": \"Detergente en polvo marca Ace 1 kilogramo\",\n        \"price\": 10.5,\n        \"stock\": 65,\n        \"minStock\": 10,\n        \"active\": true\n    },\n    {\n        \"idProduct\": null,\n        \"name\": \"Shampoo Head & Shoulders 375ml\",\n        \"description\": \"Shampoo anticaspa 375ml\",\n        \"price\": 16.9,\n        \"stock\": 40,\n        \"minStock\": 6,\n        \"active\": true\n    },\n    {\n        \"idProduct\": null,\n        \"name\": \"Papel Higiénico Elite 12 rollos\",\n        \"description\": \"Papel higiénico doble hoja\",\n        \"price\": 18,\n        \"stock\": 55,\n        \"minStock\": 8,\n        \"active\": true\n    },\n    {\n        \"idProduct\": null,\n        \"name\": \"Café Altomayo 200g\",\n        \"description\": \"Café molido Altomayo tradicional 200g\",\n        \"price\": 14.9,\n        \"stock\": 35,\n        \"minStock\": 5,\n        \"active\": true\n    },\n    {\n        \"idProduct\": null,\n        \"name\": \"Gaseosa Inca Kola 1.5L\",\n        \"description\": \"Bebida gaseosa Inca Kola de 1.5 litros\",\n        \"price\": 7.5,\n        \"stock\": 70,\n        \"minStock\": 10,\n        \"active\": true\n    },\n    {\n        \"idProduct\": null,\n        \"name\": \"Agua Cielo 625ml\",\n        \"description\": \"Botella de agua mineral sin gas\",\n        \"price\": 2.2,\n        \"stock\": 200,\n        \"minStock\": 30,\n        \"active\": true\n    },\n    {\n        \"idProduct\": null,\n        \"name\": \"Vinagre Iberia 500ml\",\n        \"description\": \"Botella de vinagre blanco 500ml\",\n        \"price\": 3.5,\n        \"stock\": 50,\n        \"minStock\": 8,\n        \"active\": true\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "findById",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}product/:id",
+							"host": [
+								"{{baseURL}}product"
+							],
+							"path": [
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Identificador de producto"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}product/:id",
+									"host": [
+										"{{baseURL}}product"
+									],
+									"path": [
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "Identificador de producto"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 04 Dec 2025 03:29:14 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"idProduct\": null,\n    \"name\": \"Arroz Costeño 5kg\",\n    \"description\": \"Arroz extra superior de 5 kilogramos\",\n    \"price\": 22.5,\n    \"stock\": 80,\n    \"minStock\": 10,\n    \"active\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Aceite Primor 1L\",\r\n  \"description\": \"Duplicado para validar\",\r\n  \"price\": 12.90,\r\n  \"stock\": 10,\r\n  \"minStock\": 2,\r\n  \"active\": true\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}product",
+							"host": [
+								"{{baseURL}}product"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "400 price",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Azúcar Rubia 1kg\",\r\n  \"description\": \"Azúcar granulada 1kg\",\r\n  \"price\": 0,\r\n  \"stock\": 50,\r\n  \"minStock\": 5,\r\n  \"active\": true\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}product",
+									"host": [
+										"{{baseURL}}product"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 04 Dec 2025 03:32:53 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 400,\n    \"error\": \"Bad Request\",\n    \"message\": \"Error de validación en uno o más campos.\",\n    \"errors\": [\n        {\n            \"field\": \"price\",\n            \"message\": \"El precio debe ser mayor que 0\"\n        }\n    ],\n    \"timestamp\": \"2025-12-03T22:32:53.755551500\"\n}"
+						},
+						{
+							"name": "400 stock negativo",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Gaseosa Coca Cola 1.5L\",\r\n  \"description\": \"Bebida gaseosa 1.5 litros\",\r\n  \"price\": 7.80,\r\n  \"stock\": -5,\r\n  \"minStock\": 10,\r\n  \"active\": true\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}product",
+									"host": [
+										"{{baseURL}}product"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 04 Dec 2025 03:33:44 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 400,\n    \"error\": \"Bad Request\",\n    \"message\": \"Error de validación en uno o más campos.\",\n    \"errors\": [\n        {\n            \"field\": \"stock\",\n            \"message\": \"El stock no puede ser negativo\"\n        }\n    ],\n    \"timestamp\": \"2025-12-03T22:33:44.847211500\"\n}"
+						},
+						{
+							"name": "400 minStock negativo",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Papel Higiénico Elite 12 rollos\",\r\n  \"description\": \"Paquete de 12 rollos doble hoja\",\r\n  \"price\": 18.00,\r\n  \"stock\": 50,\r\n  \"minStock\": -1,\r\n  \"active\": true\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}product",
+									"host": [
+										"{{baseURL}}product"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 04 Dec 2025 03:34:34 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 400,\n    \"error\": \"Bad Request\",\n    \"message\": \"Error de validación en uno o más campos.\",\n    \"errors\": [\n        {\n            \"field\": \"minStock\",\n            \"message\": \"El stock mínimo no puede ser negativo\"\n        }\n    ],\n    \"timestamp\": \"2025-12-03T22:34:34.891684\"\n}"
+						},
+						{
+							"name": "400 name",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"\",\r\n  \"description\": \"Producto sin nombre\",\r\n  \"price\": 5.0,\r\n  \"stock\": 10,\r\n  \"minStock\": 1,\r\n  \"active\": true\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}product",
+									"host": [
+										"{{baseURL}}product"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, no-store, max-age=0, must-revalidate"
+								},
+								{
+									"key": "Pragma",
+									"value": "no-cache"
+								},
+								{
+									"key": "Expires",
+									"value": "0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "DENY"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 04 Dec 2025 03:35:30 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 400,\n    \"error\": \"Bad Request\",\n    \"message\": \"Error de validación en uno o más campos.\",\n    \"errors\": [\n        {\n            \"field\": \"name\",\n            \"message\": \"El nombre es obligatorio\"\n        }\n    ],\n    \"timestamp\": \"2025-12-03T22:35:30.939718800\"\n}"
+						}
+					]
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}product/:id",
+							"host": [
+								"{{baseURL}}product"
+							],
+							"path": [
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "",
+									"description": "Identificador de producto"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "SalesOrder",
-			"item": []
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"customerId\": 1,\r\n    \"details\": [\r\n        {\r\n            \"productId\": 4,\r\n            \"quantity\": 10\r\n        },\r\n                {\r\n            \"productId\": 5,\r\n            \"quantity\": 10\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}order",
+							"host": [
+								"{{baseURL}}order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "search",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}order/search?filter= &page=0&size=10&sortBy=date",
+							"host": [
+								"{{baseURL}}order"
+							],
+							"path": [
+								"search"
+							],
+							"query": [
+								{
+									"key": "filter",
+									"value": " "
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								},
+								{
+									"key": "sortBy",
+									"value": "date"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findById",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}order/:id",
+							"host": [
+								"{{baseURL}}order"
+							],
+							"path": [
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}order/:id",
+							"host": [
+								"{{baseURL}}order"
+							],
+							"path": [
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "SalesOrderDetail",
-			"item": []
+			"item": [
+				{
+					"name": "addDetail",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productId\": 4,\r\n    \"quantity\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}orders/:id/details",
+							"host": [
+								"{{baseURL}}orders"
+							],
+							"path": [
+								":id",
+								"details"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "2",
+									"description": "Identificador de Orden"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateDetail",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"quantity\": 10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}orders/:id/details/:detailId",
+							"host": [
+								"{{baseURL}}orders"
+							],
+							"path": [
+								":id",
+								"details",
+								":detailId"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Identificador de Orden"
+								},
+								{
+									"key": "detailId",
+									"value": "1",
+									"description": "Identificador de Detalle de Orden"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteDetail",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}orders/:id/details/:detailId",
+							"host": [
+								"{{baseURL}}orders"
+							],
+							"path": [
+								":id",
+								"details",
+								":detailId"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								},
+								{
+									"key": "detailId",
+									"value": "1",
+									"description": "Identificador de Detalle de Orden"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "Invoice",
-			"item": []
+			"item": [
+				{
+					"name": "generate",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"type\": \"BOLETA\" // \"BOLETA\" o \"FACTURA\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}order/:orderId/invoice",
+							"host": [
+								"{{baseURL}}order"
+							],
+							"path": [
+								":orderId",
+								"invoice"
+							],
+							"variable": [
+								{
+									"key": "orderId",
+									"value": "1",
+									"description": "Identificador de Orden"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [
