@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "products", uniqueConstraints = {
         @UniqueConstraint(name = "UK_PRODUCT_NAME", columnNames = "name")
@@ -28,7 +30,7 @@ public class ProductEntity {
     private String description;
 
     @Column(nullable = false)
-    private Double price;
+    private BigDecimal price;
 
     @Column(nullable = false)
     private Integer stock;

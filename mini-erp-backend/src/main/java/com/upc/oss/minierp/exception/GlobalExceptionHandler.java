@@ -40,6 +40,23 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * 400 – Errores de negocio lanzados como RuntimeException
+     */
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ErrorResponse> handleRuntimeException(RuntimeException ex) {
+
+        ErrorResponse response = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                ex.getMessage(),
+                Collections.emptyList(),
+                LocalDateTime.now().toString()
+        );
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    /**
      * 401 – Credenciales incorrectas (BadCredentialsException)
      */
     @ExceptionHandler(BadCredentialsException.class)

@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -29,7 +30,7 @@ public class ProductServiceImpl implements IProductService {
             throw new RuntimeException("El nombre del producto ya existe");
         }
 
-        if (dto.getPrice() <= 0) {
+        if (dto.getPrice() == null || dto.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
             throw new RuntimeException("El precio debe ser mayor a 0");
         }
 
@@ -44,7 +45,7 @@ public class ProductServiceImpl implements IProductService {
         ProductEntity entity = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 
-        if (dto.getPrice() <= 0) {
+        if (dto.getPrice() == null || dto.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
             throw new RuntimeException("El precio debe ser mayor a 0");
         }
 
