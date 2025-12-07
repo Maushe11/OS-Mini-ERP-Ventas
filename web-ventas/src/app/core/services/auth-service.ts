@@ -38,15 +38,14 @@ export class AuthService {
   // -------------------------------------------------------------------
   // LOGIN
   // -------------------------------------------------------------------
-  login(username: string, password: string) {
-    return this.http.post<{ token: string }>(API.USER.LOGIN, {username, password})
+  login(body: any) {
+    return this.http.post<{ token: string }>(API.USER.LOGIN, body)
       .pipe(
         tap(res => {
           this._token.set(res.token);
           this.saveTokenToStorage(res.token);
           this.startWatcher(res.token);
-        }),
-        catchError(() => of(null))
+        })
       );
   }
 
