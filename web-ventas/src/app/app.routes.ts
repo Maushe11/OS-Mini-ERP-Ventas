@@ -19,6 +19,7 @@ export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+    title: 'Ingreso al sistema',
   },
   {
     path: 'home',

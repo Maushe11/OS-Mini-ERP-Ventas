@@ -30,6 +30,16 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
 
+        if (error.status === 0) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error de conexión',
+            detail: 'No se pudo conectar con el servidor. Verifique que el servicio esté disponible.'
+          });
+
+          return throwError(() => error);
+        }
+
         if (error.status === 401) {
 
           this.messageService.add({
