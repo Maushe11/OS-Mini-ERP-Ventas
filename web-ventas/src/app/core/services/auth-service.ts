@@ -1,11 +1,11 @@
-import { Injectable, signal, computed, effect, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { API } from '../config/api.config';
-import { catchError, of, tap } from 'rxjs';
-import { Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
+import {Injectable, signal, computed, effect, inject} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {API} from '../config/api.config';
+import {catchError, of, tap} from 'rxjs';
+import {Router} from '@angular/router';
+import {MessageService} from 'primeng/api';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class AuthService {
 
   private http = inject(HttpClient);
@@ -39,7 +39,7 @@ export class AuthService {
   // LOGIN
   // -------------------------------------------------------------------
   login(username: string, password: string) {
-    return this.http.post<{ token: string }>(API.USER.LOGIN, { username, password })
+    return this.http.post<{ token: string }>(API.USER.LOGIN, {username, password})
       .pipe(
         tap(res => {
           this._token.set(res.token);
@@ -130,5 +130,20 @@ export class AuthService {
   private saveTokenToStorage(token: string | null) {
     if (token) localStorage.setItem('token', token);
     else localStorage.removeItem('token');
+  }
+
+  // -------------------------------------------------------------------
+  // GUARD
+  // -------------------------------------------------------------------
+  getRole(): string | null {
+    const token = this._token();
+    if (!token) return null;
+
+    const decoded = this.decodeToken(token);
+    return decoded?.role || null;
+  }
+
+  hasRole(expectedRole: string): boolean {
+    return this.getRole() === expectedRole;
   }
 }
