@@ -8,12 +8,11 @@ import {ChartModule} from 'primeng/chart';
 import {TableModule} from 'primeng/table';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {Divider} from 'primeng/divider';
-import {StyleClass} from 'primeng/styleclass';
 
 @Component({
   standalone: true,
   selector: 'app-home',
-  imports: [CommonModule, ChartModule, TableModule, Divider, StyleClass],
+  imports: [CommonModule, ChartModule, TableModule, Divider],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })

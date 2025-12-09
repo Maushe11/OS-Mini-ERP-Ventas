@@ -1,15 +1,41 @@
-<nav class="navbar navbar-dark bg-dark px-3 d-flex justify-content-between">
+<p-toolbar class="header-toolbar">
 
-  <!-- Botón para abrir/cerrar sidebar -->
-  <button class="btn btn-outline-light" (click)="toggleSidebar()">
-    <i class="pi pi-bars"></i>
-  </button>
+  <!-- IZQUIERDA -->
+  <div class="p-toolbar-group-start flex align-items-center gap-3">
 
-<!--  <span class="navbar-brand mb-0 h1">Mi Aplicación</span>-->
+    <!-- Botón Sidebar -->
+    <button pButton
+            type="button"
+            icon="pi pi-bars"
+            (click)="toggleSidebar()"
+            class="p-button-text p-button-plain">
+    </button>
 
-  <!-- Botón cerrar sesión -->
-  <button class="btn btn-danger" (click)="logout()">
-    <i class="pi pi-sign-out"></i>
-  </button>
+    <!-- Logo -->
+    <img src="upc_logo.png" alt="Logo" class="logo">
 
-</nav>
+    <span class="app-title">Mini ERP</span>
+  </div>
+
+
+  <!-- DERECHA -->
+  <div class="p-toolbar-group-end flex align-items-center gap-5">
+
+    @if (username) {
+      <div class="user-info flex align-items-center gap-3">
+        <i class="pi pi-user"></i>
+        <span>{{ username }}</span>
+      </div>
+    }
+
+    <button pButton
+            type="button"
+            icon="pi pi-power-off"
+            label="Cerrar sesión"
+            class="p-button-danger p-button-sm"
+            (click)="logout()">
+    </button>
+
+  </div>
+
+</p-toolbar>

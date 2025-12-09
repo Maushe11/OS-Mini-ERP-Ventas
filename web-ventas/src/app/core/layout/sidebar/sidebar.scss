@@ -4,15 +4,50 @@
   position: fixed;
   left: -250px;
   top: 0;
+  transition: left .3s ease;
   z-index: 1000;
-  transition: left 0.3s ease;
-  background-color: #1f1f1f;
+  background: #1e1e1e;
 
-  .close-btn {
-    float: right;
+  &.active {
+    left: 0;
   }
 }
 
-.sidebar.active {
-  left: 0;
+/* Contenedor del ítem (li) */
+.sidebar-item-container {
+  border-radius: 6px;
+  transition: background-color 0.25s ease, transform 0.15s ease;
+
+  &:hover {
+    background: var(--surface-600);
+    cursor: pointer;
+    transform: translateX(4px);
+  }
+
+  &.active {
+    background: var(--primary-500) !important;
+    transform: translateX(6px);
+  }
+}
+
+/* Estilo del link interno */
+.sidebar-item {
+  color: #e5e5e5;
+  text-decoration: none;
+  width: 100%;
+  display: flex;
+  transition: color 0.2s ease;
+
+  i {
+    font-size: 1.1rem;
+  }
+}
+
+.sidebar-item-container:hover .sidebar-item {
+  color: #ffffff;
+}
+
+.sidebar-item-container.active .sidebar-item {
+  font-weight: 600;
+  color: #ffffff;
 }
