@@ -4,6 +4,7 @@ import {LoginComponent} from './pages/login/login';
 import {ProductList} from './pages/product/product-list/product-list';
 import {ProductForm} from './pages/product/product-form/product-form';
 import {authGuard} from './auth/auth.guard';
+import {roleGuard} from './auth/role.guard';
 import {CustomerList} from './pages/customer/customer-list/customer-list';
 import {CustomerForm} from './pages/customer/customer-form/customer-form';
 import {UserList} from './pages/user/user-list/user-list';
@@ -11,6 +12,10 @@ import {UserForm} from './pages/user/user-form/user-form';
 import {CustomerWrapper} from './pages/customer/customer-wrapper/customer-wrapper';
 import {ProductWrapper} from './pages/product/product-wrapper/product-wrapper';
 import {UserWrapper} from './pages/user/user-wrapper/user-wrapper';
+import { SalesOrderList } from './pages/sales-order/sales-order-list/sales-order-list';
+import { SalesOrderForm } from './pages/sales-order/sales-order-form/sales-order-form';
+import { SalesOrderView } from './pages/sales-order/sales-order-view/sales-order-view';
+import {SalesOrderWrapper} from './pages/sales-order/sales-order-wrapper/sales-order-wrapper';
 
 export const routes: Routes = [
   {
@@ -35,7 +40,7 @@ export const routes: Routes = [
     path: 'user',
     component: UserWrapper,
     data: {breadcrumb: 'Usuarios'},
-    canActivate: [authGuard],
+    canActivate: [authGuard, roleGuard('ROLE_ADMIN')],
     children: [
       {
         path: '',
@@ -47,21 +52,21 @@ export const routes: Routes = [
         component: UserList,
         title: 'Listado de Usuarios',
         data: {breadcrumb: 'Listado'},
-        canActivate: [authGuard],
+        canActivate: [authGuard, roleGuard('ROLE_ADMIN')],
       },
       {
         path: 'create',
         component: UserForm,
         title: 'Registrar usuario',
         data: {breadcrumb: 'Registrar'},
-        canActivate: [authGuard],
+        canActivate: [authGuard, roleGuard('ROLE_ADMIN')],
       },
       {
         path: 'edit/:id',
         component: UserForm,
         title: 'Editar usuario',
         data: {breadcrumb: 'Editar'},
-        canActivate: [authGuard],
+        canActivate: [authGuard, roleGuard('ROLE_ADMIN')],
       }
     ]
   },
@@ -131,6 +136,40 @@ export const routes: Routes = [
         component: ProductForm,
         title: 'Editar producto',
         data: {breadcrumb: 'Editar'},
+        canActivate: [authGuard],
+      }
+    ]
+  },
+  {
+    path: 'sales-order',
+    component: SalesOrderWrapper,
+    data: {breadcrumb: 'Órdenes'},
+    canActivate: [authGuard],
+    children: [
+      {
+        path: '',
+        redirectTo: 'list',
+        pathMatch: 'full'
+      },
+      {
+        path: 'list',
+        component: SalesOrderList,
+        title: 'Listado de Órdenes de Venta',
+        data: {breadcrumb: 'Listado'},
+        canActivate: [authGuard],
+      },
+      {
+        path: 'create',
+        component: SalesOrderForm,
+        title: 'Registrar órden de venta',
+        data: {breadcrumb: 'Registrar'},
+        canActivate: [authGuard],
+      },
+      {
+        path: 'view/:id',
+        component: SalesOrderView,
+        title: 'Ver órden de venta',
+        data: {breadcrumb: 'Ver'},
         canActivate: [authGuard],
       }
     ]

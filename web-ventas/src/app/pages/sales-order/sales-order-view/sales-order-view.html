@@ -1,0 +1,169 @@
+<p-panel
+  [header]="
+    'Detalle de Orden ' +
+    (order()?.code || ('#' + (order()?.idOrder ?? '')))
+  "
+  styleClass="w-full"
+>
+
+  <div class="flex justify-content-between align-items-center mb-3">
+    <div class="flex flex-column gap-1">
+      <span class="text-sm text-color-secondary">
+        Cliente
+      </span>
+      <span class="font-semibold text-lg">
+        {{ order()?.customerName }}
+      </span>
+      <span class="text-sm text-color-secondary" *ngIf="order()?.customerDocument">
+        {{ order()?.customerDocument }}
+      </span>
+    </div>
+
+    <div class="flex flex-column align-items-end gap-2">
+      <p-tag
+        [value]="order()?.status"
+        [severity]="getStatusSeverity(order()?.status)"
+      ></p-tag>
+
+      <div class="text-right">
+        <div class="text-sm text-color-secondary">Fecha</div>
+        <div class="font-medium">
+          {{ order()?.date | date : 'dd/MM/yyyy HH:mm' }}
+        </div>
+      </div>
+
+      <div class="text-right mt-2">
+        <div class="text-sm text-color-secondary">Total</div>
+        <div class="font-bold text-xl">
+          S/ {{ order()?.total | number : '1.2-2' }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p-divider></p-divider>
+
+  <h3 class="mt-0 mb-3">Productos</h3>
+
+  <p-table
+    [value]="details()"
+    [loading]="loading()"
+    responsiveLayout="scroll"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Producto</th>
+        <th style="width: 15%">Cantidad</th>
+        <th style="width: 20%">Precio</th>
+        <th style="width: 20%">Subtotal</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-row>
+      <tr>
+        <td>{{ row.productName || row.name }}</td>
+        <td>{{ row.quantity }}</td>
+        <td>
+          <span *ngIf="row.unitPrice != null || row.price != null">
+            S/
+            {{
+              (row.unitPrice ?? row.price) | number : '1.2-2'
+            }}
+          </span>
+        </td>
+        <td>
+          <span *ngIf="row.subtotal != null; else calcSubtotal">
+            S/ {{ row.subtotal | number : '1.2-2' }}
+          </span>
+          <ng-template #calcSubtotal>
+            <span *ngIf="row.unitPrice != null || row.price != null">
+              S/
+              {{
+                row.quantity * (row.unitPrice ?? row.price) | number : '1.2-2'
+              }}
+            </span>
+          </ng-template>
+        </td>
+      </tr>
+    </ng-template>
+
+  </p-table>
+
+  <p-divider></p-divider>
+
+  <h3 class="mt-0 mb-3">Facturación</h3>
+
+  <div class="flex justify-content-between align-items-center flex-wrap gap-3">
+    <span class="text-color-secondary">
+      Estado actual de la orden:
+      <strong>{{ order()?.status }}</strong>
+    </span>
+
+    <p-button
+      *ngIf="!isInvoiced()"
+      label="Generar comprobante"
+      icon="pi pi-file"
+      (click)="openInvoiceDialog()"
+      [disabled]="loading()"
+    ></p-button>
+
+    <div *ngIf="isInvoiced()" class="flex align-items-center gap-2">
+      <p-tag value="Ya facturada" severity="success"></p-tag>
+    </div>
+  </div>
+
+  <p-divider></p-divider>
+
+  <div class="flex justify-content-end mt-3">
+    <p-button
+      label="Volver"
+      icon="pi pi-arrow-left"
+      severity="secondary"
+      (click)="goBack()"
+    ></p-button>
+  </div>
+
+</p-panel>
+
+<p-dialog
+  header="Generar comprobante"
+  [visible]="showInvoiceDialog()"
+  (visibleChange)="showInvoiceDialog.set($event)"
+  [modal]="true"
+  [style]="{ width: '25rem' }"
+  (onHide)="resetInvoiceDialog()"
+>
+  <div class="p-fluid">
+    <div class="field">
+      <label for="invoiceType" class="block mb-2">Tipo de comprobante</label>
+      <p-select
+        inputId="invoiceType"
+        [options]="invoiceTypes"
+        optionLabel="label"
+        optionValue="value"
+        [(ngModel)]="invoiceTypeModel"
+        class="w-full"
+        appendTo="body"
+        [virtualScroll]="true"
+        placeholder="Seleccione tipo"
+      ></p-select>
+    </div>
+
+    <div class="flex justify-content-end gap-2 mt-3">
+      <p-button
+        label="Cancelar"
+        severity="secondary"
+        (click)="showInvoiceDialog.set(false)"
+        [disabled]="loading()"
+      ></p-button>
+      <p-button
+        label="Generar"
+        icon="pi pi-check"
+        (click)="generateInvoice()"
+        [disabled]="!invoiceTypeModel || loading()"
+      ></p-button>
+    </div>
+  </div>
+</p-dialog>
+
+<p-toast></p-toast>
