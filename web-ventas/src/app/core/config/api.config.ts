@@ -13,5 +13,9 @@ export const API = {
   PRODUCT: {
     BASE: `${environment.apiUrl}/product`,
     SEARCH: `${environment.apiUrl}/product/search`,
-  }
+  },
+  ORDER: {
+    BASE: `${environment.apiUrl}/order`, 
+    SEARCH: `${environment.apiUrl}/order/search`,
+  },
 };

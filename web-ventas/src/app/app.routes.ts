@@ -9,6 +9,9 @@ import {CustomerList} from './pages/customer/customer-list/customer-list';
 import {CustomerForm} from './pages/customer/customer-form/customer-form';
 import {UserList} from './pages/user/user-list/user-list';
 import {UserForm} from './pages/user/user-form/user-form';
+import { SalesOrderList } from './pages/sales-order/sales-order-list/sales-order-list';
+import { SalesOrderForm } from './pages/sales-order/sales-order-form/sales-order-form';
+import { SalesOrderView } from './pages/sales-order/sales-order-view/sales-order-view';
 
 export const routes: Routes = [
   {
@@ -82,6 +85,24 @@ export const routes: Routes = [
     path: 'product/edit/:id',
     component: ProductForm,
     title: 'Editar producto',
+    canActivate: [authGuard],
+  },
+  {
+    path: 'sales-order',
+    component: SalesOrderList,
+    title: 'Listado de Órdenes de Venta',
+    canActivate: [authGuard],
+  },
+  {
+    path: 'sales-order/create',
+    component: SalesOrderForm,
+    title: 'Registrar órden de venta',
+    canActivate: [authGuard],
+  },
+  {
+    path: 'sales-order/:id',
+    component: SalesOrderView,
+    title: 'Registrar órden de venta',
     canActivate: [authGuard],
   },
   {
