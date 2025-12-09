@@ -100,7 +100,7 @@ export class SalesOrderList {
   }
 
   openDetail(id: number) {
-    this.router.navigate([`/sales-order/${id}`]);
+    this.router.navigate([`/sales-order/view/${id}`]);
   }
 
 }

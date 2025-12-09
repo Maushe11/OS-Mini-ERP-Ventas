@@ -28,7 +28,7 @@ export class BreadcrumbService {
 
       const label = routeConfig.data?.['breadcrumb'];
       if (label) {
-        breadcrumbs.push({label, url: nextUrl});
+        breadcrumbs.push({label, routerLink: nextUrl});
       }
 
       return this.buildBreadcrumbs(child, nextUrl, breadcrumbs);

@@ -15,6 +15,7 @@ import {UserWrapper} from './pages/user/user-wrapper/user-wrapper';
 import { SalesOrderList } from './pages/sales-order/sales-order-list/sales-order-list';
 import { SalesOrderForm } from './pages/sales-order/sales-order-form/sales-order-form';
 import { SalesOrderView } from './pages/sales-order/sales-order-view/sales-order-view';
+import {SalesOrderWrapper} from './pages/sales-order/sales-order-wrapper/sales-order-wrapper';
 
 export const routes: Routes = [
   {

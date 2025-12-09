@@ -2,7 +2,6 @@ import {Component, EventEmitter, inject, Output} from '@angular/core';
 import {AuthService} from '../../services/auth-service';
 import {Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
-import {NgIf} from '@angular/common';
 import {ButtonDirective} from 'primeng/button';
 import {Toolbar} from 'primeng/toolbar';
 
@@ -10,7 +9,6 @@ import {Toolbar} from 'primeng/toolbar';
   selector: 'app-header',
   standalone: true,
   imports: [
-    NgIf,
     ButtonDirective,
     Toolbar
   ],

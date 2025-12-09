@@ -11,7 +11,7 @@ import {InputText} from 'primeng/inputtext';
 import {Divider} from 'primeng/divider';
 import {InputGroup} from 'primeng/inputgroup';
 import {Panel} from 'primeng/panel';
-import {Router, RouterOutlet} from '@angular/router';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-customer-list',
@@ -23,8 +23,7 @@ import {Router, RouterOutlet} from '@angular/router';
     Divider,
     InputGroup,
     Button,
-    Panel,
-    RouterOutlet
+    Panel
   ],
   templateUrl: './customer-list.html',
   styleUrl: './customer-list.scss',
