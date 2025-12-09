@@ -4,11 +4,12 @@ import {Header} from './core/layout/header/header';
 import {Sidebar} from './core/layout/sidebar/sidebar';
 import {filter} from 'rxjs';
 import {Toast} from 'primeng/toast';
+import {BreadcrumbComponent} from './core/layout/breadcrumb/breadcrumb';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, Header, Sidebar, Toast],
+  imports: [RouterOutlet, Header, Sidebar, Toast, BreadcrumbComponent],
   templateUrl: 'app.html',
   styleUrl: './app.scss'
 })

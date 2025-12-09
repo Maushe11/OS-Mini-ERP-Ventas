@@ -1,0 +1,21 @@
+.header-toolbar {
+  background: #1e1e1e;
+  color: white;
+  border: none;
+  padding: 1rem 1rem;
+
+  .logo {
+    width: 40px;
+  }
+
+  .app-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
+}
+
+.header-toolbar,
+.header-toolbar .p-toolbar {
+  border-radius: 0 !important;
+}
+

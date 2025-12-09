@@ -9,6 +9,9 @@ import {CustomerList} from './pages/customer/customer-list/customer-list';
 import {CustomerForm} from './pages/customer/customer-form/customer-form';
 import {UserList} from './pages/user/user-list/user-list';
 import {UserForm} from './pages/user/user-form/user-form';
+import {CustomerWrapper} from './pages/customer/customer-wrapper/customer-wrapper';
+import {ProductWrapper} from './pages/product/product-wrapper/product-wrapper';
+import {UserWrapper} from './pages/user/user-wrapper/user-wrapper';
 import { SalesOrderList } from './pages/sales-order/sales-order-list/sales-order-list';
 import { SalesOrderForm } from './pages/sales-order/sales-order-form/sales-order-form';
 import { SalesOrderView } from './pages/sales-order/sales-order-view/sales-order-view';
@@ -27,83 +30,148 @@ export const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
-    title: 'Inicio',
+    data: {breadcrumb: 'Home'},
+    title: 'Home',
     canActivate: [authGuard],
   },
   // User
   {
     path: 'user',
-    component: UserList,
-    title: 'Listado de Usuarios',
+    component: UserWrapper,
+    data: {breadcrumb: 'Usuarios'},
     canActivate: [authGuard, roleGuard('ROLE_ADMIN')],
-  },
-  {
-    path: 'user/create',
-    component: UserForm,
-    title: 'Registrar usuario',
-    canActivate: [authGuard, roleGuard('ROLE_ADMIN')],
-  },
-  {
-    path: 'user/edit/:id',
-    component: UserForm,
-    title: 'Editar usuario',
-    canActivate: [authGuard, roleGuard('ROLE_ADMIN')],
+    children: [
+      {
+        path: '',
+        redirectTo: 'list',
+        pathMatch: 'full'
+      },
+      {
+        path: 'list',
+        component: UserList,
+        title: 'Listado de Usuarios',
+        data: {breadcrumb: 'Listado'},
+        canActivate: [authGuard, roleGuard('ROLE_ADMIN')],
+      },
+      {
+        path: 'create',
+        component: UserForm,
+        title: 'Registrar usuario',
+        data: {breadcrumb: 'Registrar'},
+        canActivate: [authGuard, roleGuard('ROLE_ADMIN')],
+      },
+      {
+        path: 'edit/:id',
+        component: UserForm,
+        title: 'Editar usuario',
+        data: {breadcrumb: 'Editar'},
+        canActivate: [authGuard, roleGuard('ROLE_ADMIN')],
+      }
+    ]
   },
   // Customer
   {
     path: 'customer',
-    component: CustomerList,
-    title: 'Listado de Clientes',
+    component: CustomerWrapper,
+    data: {breadcrumb: 'Clientes'},
     canActivate: [authGuard],
-  },
-  {
-    path: 'customer/create',
-    component: CustomerForm,
-    title: 'Registrar cliente',
-    canActivate: [authGuard],
-  },
-  {
-    path: 'customer/edit/:id',
-    component: CustomerForm,
-    title: 'Editar cliente',
-    canActivate: [authGuard],
+    children: [
+      {
+        path: '',
+        redirectTo: 'list',
+        pathMatch: 'full'
+      },
+      {
+        path: 'list',
+        component: CustomerList,
+        title: 'Listado de Clientes',
+        data: {breadcrumb: 'Listado'},
+        canActivate: [authGuard],
+      },
+      {
+        path: 'create',
+        component: CustomerForm,
+        title: 'Registrar cliente',
+        data: {breadcrumb: 'Registrar'},
+        canActivate: [authGuard],
+      },
+      {
+        path: 'edit/:id',
+        component: CustomerForm,
+        title: 'Editar cliente',
+        data: {breadcrumb: 'Editar'},
+        canActivate: [authGuard],
+      }
+    ]
   },
   // Product
   {
     path: 'product',
-    component: ProductList,
-    title: 'Listado de Productos',
+    component: ProductWrapper,
+    data: {breadcrumb: 'Productos'},
     canActivate: [authGuard],
-  },
-  {
-    path: 'product/create',
-    component: ProductForm,
-    title: 'Registrar producto',
-    canActivate: [authGuard],
-  },
-  {
-    path: 'product/edit/:id',
-    component: ProductForm,
-    title: 'Editar producto',
-    canActivate: [authGuard],
+    children: [
+      {
+        path: '',
+        redirectTo: 'list',
+        pathMatch: 'full'
+      },
+      {
+        path: 'list',
+        component: ProductList,
+        title: 'Listado de Productos',
+        data: {breadcrumb: 'Listado'},
+        canActivate: [authGuard],
+      },
+      {
+        path: 'create',
+        component: ProductForm,
+        title: 'Registrar producto',
+        data: {breadcrumb: 'Registrar'},
+        canActivate: [authGuard],
+      },
+      {
+        path: 'edit/:id',
+        component: ProductForm,
+        title: 'Editar producto',
+        data: {breadcrumb: 'Editar'},
+        canActivate: [authGuard],
+      }
+    ]
   },
   {
     path: 'sales-order',
-    component: SalesOrderList,
-    title: 'Listado de Órdenes de Venta',
+    component: SalesOrderWrapper,
+    data: {breadcrumb: 'Órdenes'},
     canActivate: [authGuard],
-  },
-  {
-    path: 'sales-order/create',
-    component: SalesOrderForm,
-    title: 'Registrar órden de venta',
-    canActivate: [authGuard],
-  },
-  {
-    path: 'sales-order/:id',
-    component: SalesOrderView,
-    title: 'Registrar órden de venta',
-    canActivate: [authGuard],
+    children: [
+      {
+        path: '',
+        redirectTo: 'list',
+        pathMatch: 'full'
+      },
+      {
+        path: 'list',
+        component: SalesOrderList,
+        title: 'Listado de Órdenes de Venta',
+        data: {breadcrumb: 'Listado'},
+        canActivate: [authGuard],
+      },
+      {
+        path: 'create',
+        component: SalesOrderForm,
+        title: 'Registrar órden de venta',
+        data: {breadcrumb: 'Registrar'},
+        canActivate: [authGuard],
+      },
+      {
+        path: 'view/:id',
+        component: SalesOrderView,
+        title: 'Ver órden de venta',
+        data: {breadcrumb: 'Ver'},
+        canActivate: [authGuard],
+      }
+    ]
   },
   {
     path: '**',

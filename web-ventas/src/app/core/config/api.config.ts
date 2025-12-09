@@ -15,7 +15,13 @@ export const API = {
     SEARCH: `${environment.apiUrl}/product/search`,
   },
   ORDER: {
-    BASE: `${environment.apiUrl}/order`, 
+    BASE: `${environment.apiUrl}/order`,
     SEARCH: `${environment.apiUrl}/order/search`,
   },
+  DASHBOARD: {
+    SUMMARY: `${environment.apiUrl}/dashboard/summary`,
+    MONTHLY_SALES: `${environment.apiUrl}/dashboard/monthly-sales`,
+    PRODUCT_RANKING: `${environment.apiUrl}/dashboard/product-ranking`,
+    TOP_CUSTOMERS: `${environment.apiUrl}/dashboard/top-customers`,
+  }
 };
