@@ -1,16 +1,10 @@
-// src/app/features/sales-order/sales-order-form.ts
 import {Component, computed, inject, signal} from '@angular/core';
 import {FormBuilder, ReactiveFormsModule, Validators, FormsModule} from '@angular/forms';
 import {Router} from '@angular/router';
-import {DecimalPipe, NgForOf, NgIf} from '@angular/common';
-
+import {DecimalPipe, NgIf} from '@angular/common';
 import {CustomerService} from '../../../core/services/customer.service';
 import {ProductService} from '../../../core/services/product.service';
-
-
 import {MessageService} from 'primeng/api';
-
-// PrimeNG standalone
 import {Panel} from 'primeng/panel';
 import {Button, ButtonDirective, ButtonIcon, ButtonLabel} from 'primeng/button';
 import {InputGroupModule} from 'primeng/inputgroup';
@@ -123,7 +117,7 @@ export class SalesOrderForm {
     this.productService.search('', 0, 100, 'name').subscribe({
       next: (resp: any) => {
         const content = resp.content ?? resp;
-        const mapped: ProductOption[] = (content ?? []).map((p: any) => ({
+        const mapped: ProductOption[] = (content ?? []).filter((p: any) => p.active).map((p: any) => ({
           id: p.id ?? p.idProduct ?? p.productId,
           name: p.name,
           price: p.price ?? 0

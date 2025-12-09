@@ -43,7 +43,6 @@
 
   <p-divider></p-divider>
 
-  <!-- DETALLE DE PRODUCTOS -->
   <h3 class="mt-0 mb-3">Productos</h3>
 
   <p-table
@@ -65,7 +64,6 @@
         <td>{{ row.productName || row.name }}</td>
         <td>{{ row.quantity }}</td>
         <td>
-          <!-- si el backend no envía price, esto se verá vacío -->
           <span *ngIf="row.unitPrice != null || row.price != null">
             S/
             {{
@@ -93,6 +91,29 @@
 
   <p-divider></p-divider>
 
+  <h3 class="mt-0 mb-3">Facturación</h3>
+
+  <div class="flex justify-content-between align-items-center flex-wrap gap-3">
+    <span class="text-color-secondary">
+      Estado actual de la orden:
+      <strong>{{ order()?.status }}</strong>
+    </span>
+
+    <p-button
+      *ngIf="!isInvoiced()"
+      label="Generar comprobante"
+      icon="pi pi-file"
+      (click)="openInvoiceDialog()"
+      [disabled]="loading()"
+    ></p-button>
+
+    <div *ngIf="isInvoiced()" class="flex align-items-center gap-2">
+      <p-tag value="Ya facturada" severity="success"></p-tag>
+    </div>
+  </div>
+
+  <p-divider></p-divider>
+
   <div class="flex justify-content-end mt-3">
     <p-button
       label="Volver"
@@ -103,5 +124,46 @@
   </div>
 
 </p-panel>
+
+<p-dialog
+  header="Generar comprobante"
+  [visible]="showInvoiceDialog()"
+  (visibleChange)="showInvoiceDialog.set($event)"
+  [modal]="true"
+  [style]="{ width: '25rem' }"
+  (onHide)="resetInvoiceDialog()"
+>
+  <div class="p-fluid">
+    <div class="field">
+      <label for="invoiceType" class="block mb-2">Tipo de comprobante</label>
+      <p-select
+        inputId="invoiceType"
+        [options]="invoiceTypes"
+        optionLabel="label"
+        optionValue="value"
+        [(ngModel)]="invoiceTypeModel"
+        class="w-full"
+        appendTo="body"
+        [virtualScroll]="true"
+        placeholder="Seleccione tipo"
+      ></p-select>
+    </div>
+
+    <div class="flex justify-content-end gap-2 mt-3">
+      <p-button
+        label="Cancelar"
+        severity="secondary"
+        (click)="showInvoiceDialog.set(false)"
+        [disabled]="loading()"
+      ></p-button>
+      <p-button
+        label="Generar"
+        icon="pi pi-check"
+        (click)="generateInvoice()"
+        [disabled]="!invoiceTypeModel || loading()"
+      ></p-button>
+    </div>
+  </div>
+</p-dialog>
 
 <p-toast></p-toast>

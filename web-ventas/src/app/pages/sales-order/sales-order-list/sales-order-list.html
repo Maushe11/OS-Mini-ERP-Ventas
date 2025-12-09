@@ -64,8 +64,8 @@
         <td>
           @if (row.status === 'REGISTRADO') {
             <p-tag severity="secondary" value="REGISTRADO"></p-tag>
-          } @else if (row.status === 'PAID') {
-            <p-tag severity="success" value="Pagada"></p-tag>
+          } @else if (row.status === 'FACTURADO') {
+            <p-tag severity="success" value="FACTURADO"></p-tag>
           } @else {
             <p-tag severity="info" value="{{ row.status }}"></p-tag>
           }

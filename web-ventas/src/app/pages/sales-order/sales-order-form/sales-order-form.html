@@ -5,7 +5,6 @@
 
       <form (ngSubmit)="submit()" [formGroup]="form" class="p-fluid grid formgrid">
 
-        <!-- CLIENTE -->
         <div class="field col-12">
           <p-inputgroup>
             <p-inputgroup-addon>
@@ -20,7 +19,6 @@
                 optionValue="id"
                 inputId="customerId"
                 [showClear]="true"
-                placeholder="Selecciona un cliente"
                 class="w-full"
               ></p-select>
               <label for="customerId">Cliente</label>
@@ -34,7 +32,6 @@
           ></p-message>
         </div>
 
-        <!-- DETALLE DE PRODUCTOS -->
         <div class="field col-12">
           <p-panel header="Detalle de Productos">
 
@@ -46,7 +43,7 @@
                 <tr>
                   <th style="width: 40%">Producto</th>
                   <th style="width: 15%">Cantidad</th>
-                  <th style="width: 20%">Precio (solo vista)</th>
+                  <th style="width: 20%">Precio</th>
                   <th style="width: 20%">Subtotal</th>
                   <th style="width: 5%"></th>
                 </tr>
@@ -54,20 +51,21 @@
 
               <ng-template pTemplate="body" let-row let-rowIndex="rowIndex">
                 <tr>
-                  <!-- PRODUCTO -->
                   <td>
                     <p-select
                       [options]="products()"
                       optionLabel="name"
                       [(ngModel)]="row.product"
-                      [ngModelOptions]="{standalone: true}"
+                      [ngModelOptions]="{ standalone: true }"
                       (ngModelChange)="onProductChange(rowIndex, $event)"
                       placeholder="Seleccione producto"
                       class="w-full"
+                      appendTo="body"
+                      [virtualScroll]="true"
+                      [virtualScrollItemSize]="32"
                     ></p-select>
                   </td>
 
-                  <!-- CANTIDAD -->
                   <td>
                     <p-inputNumber
                       [(ngModel)]="row.quantity"
@@ -78,7 +76,6 @@
                     ></p-inputNumber>
                   </td>
 
-                  <!-- PRECIO (solo UI) -->
                   <td>
                     <p-inputNumber
                       [(ngModel)]="row.price"
@@ -87,15 +84,14 @@
                       mode="currency"
                       currency="PEN"
                       [minFractionDigits]="2"
+                      [readonly]="true"
                     ></p-inputNumber>
                   </td>
 
-                  <!-- SUBTOTAL -->
                   <td>
                     S/ {{ row.subtotal | number : '1.2-2' }}
                   </td>
 
-                  <!-- ELIMINAR -->
                   <td class="text-center">
                     <p-button
                       type="button"
@@ -129,7 +125,6 @@
           </p-panel>
         </div>
 
-        <!-- BOTONES -->
         <div class="field col-12 mt-4">
           <div class="flex gap-3 flex-column md:flex-row">
             <button
@@ -141,13 +136,14 @@
               <span pButtonLabel>Guardar Orden</span>
             </button>
 
-            <p-button
+            <button
+              pButton
               label="Cancelar"
               icon="pi pi-arrow-left"
               severity="secondary"
               class="w-full md:w-6"
               (click)="goBack()"
-            ></p-button>
+            ></button>
           </div>
         </div>
 
