@@ -6,6 +6,10 @@
     (close)="closeSidebar()">
   </app-sidebar>
 
+  <div class="breadcrumb-container px-3 py-2">
+    <app-breadcrumb></app-breadcrumb>
+  </div>
+
   <div class="main-content" [class.sidebar-open]="sidebarOpen">
     <router-outlet></router-outlet>
   </div>
