@@ -6,10 +6,11 @@ import java.math.BigDecimal;
 
 @Data
 public class DashboardSummaryDto {
+    private BigDecimal totalToday;
+    private BigDecimal totalWeek;
+    private BigDecimal totalMonth;
 
-    private long totalOrders;
-    private long totalInvoices;
-    private long totalCustomers;
-    private BigDecimal totalSales;
-
+    private Long ordersToday;
+    private Long ordersWeek;
+    private Long ordersMonth;
 }

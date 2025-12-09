@@ -1,94 +1,160 @@
-import { Component, computed, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import {Component, computed, effect, inject} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {Router} from '@angular/router';
 
-import { AuthService } from '../../core/services/auth-service';
-import {
-  DashboardService,
-  DashboardSummary,
-  MonthlySales
-} from '../../services/dashboard.service';
-
-import { ChartModule } from 'primeng/chart';
+import {AuthService} from '../../core/services/auth-service';
+import {DashboardService} from '../../core/services/dashboard.service';
+import {ChartModule} from 'primeng/chart';
+import {TableModule} from 'primeng/table';
+import {toSignal} from '@angular/core/rxjs-interop';
+import {Divider} from 'primeng/divider';
+import {StyleClass} from 'primeng/styleclass';
 
 @Component({
   standalone: true,
   selector: 'app-home',
-  imports: [CommonModule, ChartModule],
+  imports: [CommonModule, ChartModule, TableModule, Divider, StyleClass],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
-export class HomeComponent implements OnInit {
-  // ====== Autenticación (lo que ya tenías) ======
-  private authService = inject(AuthService);
+export class HomeComponent {
+
+  private auth = inject(AuthService);
   private router = inject(Router);
+  private dashboard = inject(DashboardService);
 
-  token = computed(() => this.authService.getToken());
+  token = computed(() => this.auth.getToken());
 
-  logout(): void {
-    this.authService.logout();
-    this.router.navigate(['/login']);
-  }
+  summary = toSignal(this.dashboard.getSummary(), {
+    initialValue: {
+      totalToday: 0,
+      totalWeek: 0,
+      totalMonth: 0,
+    },
+  });
 
-  // ====== Dashboard (nuevo) ======
-  private dashboardService = inject(DashboardService);
+  monthlySales = toSignal(this.dashboard.getMonthlySales(), {
+    initialValue: [],
+  });
 
-  // KPIs
-  totalSales = 0;
-  totalCustomers = 0;
-  totalProducts = 0;
+  productRanking = toSignal(this.dashboard.getProductRanking(), {
+    initialValue: [],
+  });
 
-  // Gráfico
-  salesChartData: any;
-  salesChartOptions: any;
+  topCustomers = toSignal(this.dashboard.getTopCustomers(), {
+    initialValue: [],
+  });
 
-  // Estado de carga
-  loading = false;
+  // ===== KPIs (computed) =====
+  totalToday = computed(() => this.summary().totalToday);
+  totalWeek = computed(() => this.summary().totalWeek);
+  totalMonth = computed(() => this.summary().totalMonth);
 
-  // Se ejecuta al entrar a Home
-  ngOnInit(): void {
-    this.loadDashboard();
-  }
+  // ===== Chart (computed) =====
+  salesChartData = computed(() => {
+    const data = this.monthlySales();
 
-  private loadDashboard(): void {
-    this.loading = true;
-
-    this.dashboardService.getSummary().subscribe({
-      next: (summary: DashboardSummary) => {
-        // Asignar KPI
-        this.totalSales = summary.totalSales;
-        this.totalCustomers = summary.totalCustomers;
-        this.totalProducts = summary.totalProducts;
-
-        // Construir gráfico
-        this.buildSalesChart(summary.monthlySales);
-
-        this.loading = false;
-      },
-      error: (err) => {
-        console.error('Error al cargar el dashboard', err);
-        this.loading = false;
-      },
-    });
-  }
-
-  private buildSalesChart(monthly: MonthlySales[]): void {
-    const labels = monthly.map((m) => `Mes ${m.month}`);
-    const data = monthly.map((m) => m.total);
-
-    this.salesChartData = {
-      labels,
+    return {
+      labels: data.map(m => this.monthName(m.month)),
       datasets: [
         {
           label: 'Ventas mensuales',
-          data,
+          backgroundColor: [
+            'rgba(249, 115, 22, 0.2)',
+            'rgba(6, 182, 212, 0.2)',
+            'rgb(107, 114, 128, 0.2)',
+            'rgba(139, 92, 246, 0.2)',
+          ],
+          borderColor: ['rgb(249, 115, 22)', 'rgb(6, 182, 212)', 'rgb(107, 114, 128)', 'rgb(139, 92, 246)'],
+          borderWidth: 1,
+          data: data.map(m => m.total),
         },
       ],
     };
+  });
 
-    this.salesChartOptions = {
-      responsive: true,
-      maintainAspectRatio: false,
+  salesChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+  };
+
+  // ===== Gráfico productos =====
+  productChartData = computed(() => {
+    const ranking = this.productRanking();
+
+    return {
+      labels: ranking.map(r => r.productName),
+      datasets: [
+        {
+          label: 'Cantidad vendida',
+          data: ranking.map(r => r.totalQuantitySold),
+
+          backgroundColor: [
+            'rgba(249, 115, 22, 0.7)',   // naranja
+            'rgba(6, 182, 212, 0.7)',    // celeste
+            'rgba(107, 114, 128, 0.7)',  // gris
+            'rgba(139, 92, 246, 0.7)',   // morado
+            'rgba(236, 72, 153, 0.7)',   // rosado
+            'rgba(34, 197, 94, 0.7)',    // verde
+          ],
+
+          hoverBackgroundColor: [
+            'rgb(249, 115, 22)',
+            'rgb(6, 182, 212)',
+            'rgb(107, 114, 128)',
+            'rgb(139, 92, 246)',
+            'rgb(236, 72, 153)',
+            'rgb(34, 197, 94)',
+          ],
+
+          borderWidth: 1,
+        }
+      ]
     };
+  });
+
+  // ===== Gráfico clientes =====
+  customerChartData = computed(() => {
+    const customers = this.topCustomers();
+
+    return {
+      labels: customers.map(c => c.customerName),
+      datasets: [
+        {
+          label: 'Total comprado',
+          backgroundColor: [
+            'rgba(249, 115, 22, 0.2)',
+            'rgba(6, 182, 212, 0.2)',
+            'rgb(107, 114, 128, 0.2)',
+            'rgba(139, 92, 246, 0.2)',
+          ],
+          borderColor: ['rgb(249, 115, 22)', 'rgb(6, 182, 212)', 'rgb(107, 114, 128)', 'rgb(139, 92, 246)'],
+          borderWidth: 1,
+          data: customers.map(c => c.totalPurchased),
+        }
+      ]
+    };
+  });
+
+  productChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+  };
+
+  customerChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+  };
+
+  constructor() {
+    // efecto opcional solo para depuración
+    effect(() => {
+      console.log('Summary actualizado:', this.summary());
+    });
+  }
+
+  monthName(month: number) {
+    const names = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+    return names[month - 1];
   }
 }
