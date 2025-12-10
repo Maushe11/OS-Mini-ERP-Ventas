@@ -13,6 +13,7 @@ import {InputGroupAddonModule} from 'primeng/inputgroupaddon';
 import {FloatLabel} from 'primeng/floatlabel';
 import {Message} from 'primeng/message';
 import {ButtonDirective, ButtonIcon, ButtonLabel} from 'primeng/button';
+import {Select} from 'primeng/select';
 
 @Component({
   standalone: true,
@@ -28,7 +29,8 @@ import {ButtonDirective, ButtonIcon, ButtonLabel} from 'primeng/button';
     Message,
     ButtonDirective,
     ButtonIcon,
-    ButtonLabel
+    ButtonLabel,
+    Select
   ],
   providers: [CustomerService],
   templateUrl: './customer-form.html',
@@ -45,7 +47,15 @@ export class CustomerForm {
   id = signal<number | null>(null);
   loading = signal(false);
 
+  documentTypes = signal<any[]>([
+    { label: 'DNI', value: 'DNI' },
+    { label: 'RUC', value: 'RUC' }
+  ]);
+
+  paramProcessed = signal(false);
+
   form = this.fb.group({
+    documentType: ['DNI', Validators.required],
     document: ['', Validators.required],
     name: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
@@ -58,14 +68,43 @@ export class CustomerForm {
     return !!(c && c.invalid && c.touched);
   }
 
+  getError(control: string) {
+    const c = this.form.get(control);
+    if (!c || !c.errors || !c.touched) return null;
+
+    if (c.errors['required']) return 'required';
+    if (c.errors['pattern']) return 'pattern';
+
+    return 'unknown';
+  }
+
   constructor() {
-    effect(() => {
-      const paramId = this.route.snapshot.paramMap.get('id');
-      if (paramId) {
-        this.id.set(Number(paramId));
-        this.loadCustomer(Number(paramId));
+    const docTypeControl = this.form.get('documentType');
+    const docControl = this.form.get('document');
+
+    // Cambiar validaciones según el tipo seleccionado
+    docTypeControl?.valueChanges.subscribe(type => {
+      if (type === 'DNI') {
+        docControl?.setValidators([
+          Validators.required,
+          Validators.pattern(/^[0-9]{8}$/)
+        ]);
+      } else {
+        docControl?.setValidators([
+          Validators.required,
+          Validators.pattern(/^[0-9]{11}$/)
+        ]);
       }
+
+      docControl?.updateValueAndValidity();
     });
+
+    // Cargar datos si es edición
+    const paramId = this.route.snapshot.paramMap.get('id');
+    if (paramId) {
+      this.id.set(Number(paramId));
+      this.loadCustomer(Number(paramId));
+    }
   }
 
   loadCustomer(id: number) {
@@ -73,7 +112,15 @@ export class CustomerForm {
 
     this.customerService.getById(id).subscribe({
       next: (customer) => {
+
+        const type = customer.document.length === 8 ? 'DNI' : 'RUC';
+
+        this.form.get('documentType')?.setValue(type, { emitEvent: true });
+
         this.form.patchValue(customer);
+
+        this.form.get('document')?.updateValueAndValidity();
+
         this.loading.set(false);
       },
       error: () => {
@@ -90,7 +137,6 @@ export class CustomerForm {
   submit() {
 
     this.form.markAllAsTouched();
-
     if (this.form.invalid) return;
 
     this.loading.set(true);

@@ -5,6 +5,27 @@
 
       <form (ngSubmit)="submit()" [formGroup]="form" class="p-fluid grid formgrid">
 
+        <!-- Tipo de documento -->
+        <div class="field col-12">
+          <p-inputgroup>
+            <p-inputgroup-addon>
+              <i class="pi pi-address-book"></i>
+            </p-inputgroup-addon>
+
+            <p-floatlabel variant="in">
+              <p-select
+                inputId="documentType"
+                formControlName="documentType"
+                [options]="documentTypes()"
+                optionLabel="label"
+                optionValue="value"
+                class="w-full">
+              </p-select>
+              <label for="documentType">Tipo de Documento</label>
+            </p-floatlabel>
+          </p-inputgroup>
+        </div>
+
         <!-- Documento -->
         <div class="field col-12">
           <p-inputgroup>
@@ -18,15 +39,32 @@
                 id="document"
                 formControlName="document"
                 [invalid]="isInvalid('document')"
+                maxlength="{{ form.get('documentType')?.value === 'DNI' ? 8 : 11 }}"
               />
               <label for="document">Documento</label>
             </p-floatlabel>
           </p-inputgroup>
 
           @if (isInvalid('document')) {
-            <p-message severity="error" size="small" variant="simple">
-              El documento es obligatorio.
-            </p-message>
+            @if (getError('document') === 'required') {
+              <p-message severity="error" size="small" variant="simple">
+                El documento es obligatorio.
+              </p-message>
+            }
+
+            @if (getError('document') === 'pattern') {
+              @if (form.get('documentType')?.value === 'DNI') {
+                <p-message severity="error" size="small" variant="simple">
+                  El DNI debe tener exactamente 8 dígitos numéricos.
+                </p-message>
+              }
+
+              @if (form.get('documentType')?.value === 'RUC') {
+                <p-message severity="error" size="small" variant="simple">
+                  El RUC debe tener exactamente 11 dígitos numéricos.
+                </p-message>
+              }
+            }
           }
         </div>
 
