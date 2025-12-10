@@ -2,7 +2,7 @@ import {CustomerService} from '../../../core/services/customer.service';
 
 import {Component, effect, inject, signal} from '@angular/core';
 
-import {MessageService} from 'primeng/api';
+import {ConfirmationService, MessageService} from 'primeng/api';
 import {FormsModule} from '@angular/forms';
 import {TableModule} from 'primeng/table';
 import {Paginator} from 'primeng/paginator';
@@ -12,6 +12,7 @@ import {Divider} from 'primeng/divider';
 import {InputGroup} from 'primeng/inputgroup';
 import {Panel} from 'primeng/panel';
 import {Router} from '@angular/router';
+import {ConfirmDialog} from 'primeng/confirmdialog';
 
 @Component({
   selector: 'app-customer-list',
@@ -23,7 +24,8 @@ import {Router} from '@angular/router';
     Divider,
     InputGroup,
     Button,
-    Panel
+    Panel,
+    ConfirmDialog
   ],
   templateUrl: './customer-list.html',
   styleUrl: './customer-list.scss',
@@ -32,6 +34,7 @@ export class CustomerList {
 
   private customerService = inject(CustomerService);
   private messageService = inject(MessageService);
+  private confirmationService = inject(ConfirmationService);
   private router = inject(Router);
 
   customers = signal<any[]>([]);
@@ -104,6 +107,37 @@ export class CustomerList {
 
   openEditForm(id: number) {
     this.router.navigate([`/customer/edit/${id}`]);
+  }
+
+  deleteCustomer(id: number) {
+    this.confirmationService.confirm({
+      message: '¿Estás seguro de eliminar este cliente?',
+      header: 'Confirmación',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Sí, eliminar',
+      rejectLabel: 'Cancelar',
+      acceptButtonStyleClass: 'p-button-danger',
+      accept: () => {
+        this.customerService.delete(id).subscribe({
+          next: () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Eliminado',
+              detail: 'La orden fue eliminada correctamente.'
+            });
+
+            this.loadCustomers(this.filter(), this.page(), this.size(), this.sortBy());
+          },
+          error: (err) => {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: err.error?.message || 'Ocurrió un error inesperado.',
+            });
+          }
+        });
+      }
+    });
   }
 
 }

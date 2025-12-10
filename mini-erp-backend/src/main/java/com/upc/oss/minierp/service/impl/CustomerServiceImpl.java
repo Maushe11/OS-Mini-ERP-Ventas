@@ -5,6 +5,7 @@ import com.upc.oss.minierp.dto.response.CustomerResponseDto;
 import com.upc.oss.minierp.entity.CustomerEntity;
 import com.upc.oss.minierp.mapper.CustomerMapper;
 import com.upc.oss.minierp.repository.CustomerRepository;
+import com.upc.oss.minierp.repository.SalesOrderRepository;
 import com.upc.oss.minierp.service.ICustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,7 @@ public class CustomerServiceImpl implements ICustomerService {
 
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
+    private final SalesOrderRepository salesOrderRepository;
 
     @Override
     public List<CustomerResponseDto> listAll() {
@@ -63,6 +65,11 @@ public class CustomerServiceImpl implements ICustomerService {
         if (!customerRepository.existsById(id)) {
             throw new RuntimeException("Cliente no encontrado");
         }
+
+        if (salesOrderRepository.countAllByCustomerId(id) > 0) {
+            throw new RuntimeException("No se puede eliminar al cliente porque tiene órdenes de venta asociadas.");
+        }
+
         customerRepository.deleteById(id);
     }
 

@@ -20,6 +20,8 @@ public interface SalesOrderRepository extends JpaRepository<SalesOrderEntity, Lo
             Pageable pageable
     );
 
+    Long countAllByCustomerId(Long customerId);
+
     @Query("""
                 SELECT new com.upc.oss.minierp.dto.response.MonthlySalesDto(
                     MONTH(o.date),

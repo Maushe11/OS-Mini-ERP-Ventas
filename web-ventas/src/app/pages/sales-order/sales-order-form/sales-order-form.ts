@@ -1,7 +1,7 @@
 import {Component, computed, inject, signal} from '@angular/core';
-import {FormBuilder, ReactiveFormsModule, Validators, FormsModule} from '@angular/forms';
+import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import {DecimalPipe, NgIf} from '@angular/common';
+import {DecimalPipe} from '@angular/common';
 import {CustomerService} from '../../../core/services/customer.service';
 import {ProductService} from '../../../core/services/product.service';
 import {MessageService} from 'primeng/api';
@@ -15,7 +15,7 @@ import {InputNumber} from 'primeng/inputnumber';
 import {TableModule} from 'primeng/table';
 import {Message} from 'primeng/message';
 import {ToastModule} from 'primeng/toast';
-import { OrderDetailRequest, OrderRequestDto, SalesOrderService } from '../../../core/services/sales-order.services';
+import {OrderDetailRequest, OrderRequestDto, SalesOrderService} from '../../../core/services/sales-order.services';
 
 interface CustomerOption {
   id: number;
@@ -43,7 +43,6 @@ interface DetailRow {
   imports: [
     ReactiveFormsModule,
     FormsModule,
-    NgIf,
     DecimalPipe,
     Panel,
     Button,

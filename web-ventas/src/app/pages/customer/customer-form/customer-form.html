@@ -87,9 +87,17 @@
           </p-inputgroup>
 
           @if (isInvalid('name')) {
-            <p-message severity="error" size="small" variant="simple">
-              El nombre es obligatorio.
-            </p-message>
+            @if (getError('name') === 'required') {
+              <p-message severity="error" size="small" variant="simple">
+                El nombre es obligatorio.
+              </p-message>
+            }
+
+            @if (getError('name') === 'pattern') {
+              <p-message severity="error" size="small" variant="simple">
+                El nombre solo debe contener letras, espacios, tildes y diéresis.
+              </p-message>
+            }
           }
         </div>
 
@@ -137,15 +145,24 @@
                 id="phone"
                 formControlName="phone"
                 [invalid]="isInvalid('phone')"
+                [maxlength]="9"
               />
               <label for="phone">Celular</label>
             </p-floatlabel>
           </p-inputgroup>
 
           @if (isInvalid('phone')) {
-            <p-message severity="error" size="small" variant="simple">
-              El celular es obligatorio.
-            </p-message>
+            @if (getError('phone') === 'required') {
+              <p-message severity="error" size="small" variant="simple">
+                El celular es obligatorio.
+              </p-message>
+            }
+
+            @if (getError('phone') === 'pattern') {
+              <p-message severity="error" size="small" variant="simple">
+                El celular debe tener 9 dígitos numéricos.
+              </p-message>
+            }
           }
         </div>
 

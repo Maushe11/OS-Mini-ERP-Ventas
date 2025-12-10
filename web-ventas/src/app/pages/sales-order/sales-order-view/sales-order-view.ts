@@ -1,20 +1,20 @@
-import { Component, computed, inject, signal } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { DatePipe, DecimalPipe, NgForOf, NgIf } from '@angular/common';
+import {Component, computed, inject, signal} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {DatePipe, DecimalPipe, NgForOf, NgIf} from '@angular/common';
 
-import { SalesOrderService } from '../../../core/services/sales-order.services';
-import { InvoiceService } from '../../../core/services/invoice.service';
+import {SalesOrderService} from '../../../core/services/sales-order.services';
+import {InvoiceService} from '../../../core/services/invoice.service';
 
-import { MessageService } from 'primeng/api';
-import { Panel } from 'primeng/panel';
-import { Button } from 'primeng/button';
-import { TableModule } from 'primeng/table';
-import { Divider } from 'primeng/divider';
-import { Tag } from 'primeng/tag';
-import { ToastModule } from 'primeng/toast';
-import { DialogModule } from 'primeng/dialog';
-import { Select } from 'primeng/select';
-import { FormsModule } from '@angular/forms';
+import {MessageService} from 'primeng/api';
+import {Panel} from 'primeng/panel';
+import {Button} from 'primeng/button';
+import {TableModule} from 'primeng/table';
+import {Divider} from 'primeng/divider';
+import {Tag} from 'primeng/tag';
+import {ToastModule} from 'primeng/toast';
+import {DialogModule} from 'primeng/dialog';
+import {Select} from 'primeng/select';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   standalone: true,
@@ -34,8 +34,7 @@ import { FormsModule } from '@angular/forms';
     ToastModule,
     DialogModule,
     Select
-  ],
-  providers: [MessageService]
+  ]
 })
 export class SalesOrderView {
 
@@ -55,8 +54,8 @@ export class SalesOrderView {
   invoiceTypeModel: 'BOLETA' | 'FACTURA' | null = null;
 
   invoiceTypes = [
-    { label: 'Boleta', value: 'BOLETA' as const },
-    { label: 'Factura', value: 'FACTURA' as const }
+    {label: 'Boleta', value: 'BOLETA' as const},
+    {label: 'Factura', value: 'FACTURA' as const}
   ];
 
   constructor() {
@@ -119,13 +118,13 @@ export class SalesOrderView {
 
     this.loading.set(true);
 
-    this.invoiceService.generate(orderId, { type: this.invoiceTypeModel }).subscribe({
+    this.invoiceService.generate(orderId, {type: this.invoiceTypeModel}).subscribe({
       next: (res) => {
         this.loading.set(false);
         this.showInvoiceDialog.set(false);
 
         this.order.update(o =>
-          o ? { ...o, status: 'FACTURADO' } : o
+          o ? {...o, status: 'FACTURADO'} : o
         );
 
         this.messageService.add({
@@ -133,6 +132,8 @@ export class SalesOrderView {
           summary: 'Comprobante generado',
           detail: `Se generó el comprobante ${res.type} ${res.number}.`
         });
+
+        this.router.navigate(['/sales-order']);
       },
       error: (err) => {
         console.error(err);

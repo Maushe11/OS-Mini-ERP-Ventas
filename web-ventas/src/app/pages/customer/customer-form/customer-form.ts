@@ -14,6 +14,7 @@ import {FloatLabel} from 'primeng/floatlabel';
 import {Message} from 'primeng/message';
 import {ButtonDirective, ButtonIcon, ButtonLabel} from 'primeng/button';
 import {Select} from 'primeng/select';
+import {InputMask} from 'primeng/inputmask';
 
 @Component({
   standalone: true,
@@ -30,7 +31,8 @@ import {Select} from 'primeng/select';
     ButtonDirective,
     ButtonIcon,
     ButtonLabel,
-    Select
+    Select,
+    InputMask
   ],
   providers: [CustomerService],
   templateUrl: './customer-form.html',
@@ -48,18 +50,25 @@ export class CustomerForm {
   loading = signal(false);
 
   documentTypes = signal<any[]>([
-    { label: 'DNI', value: 'DNI' },
-    { label: 'RUC', value: 'RUC' }
+    {label: 'DNI', value: 'DNI'},
+    {label: 'RUC', value: 'RUC'}
   ]);
-
-  paramProcessed = signal(false);
 
   form = this.fb.group({
     documentType: ['DNI', Validators.required],
     document: ['', Validators.required],
-    name: ['', Validators.required],
+    name: ['',
+      [
+        Validators.required,
+        Validators.pattern(/^[A-Za-zÁÉÍÓÚÜÑáéíóúüñ\s]+$/)
+      ]
+    ],
     email: ['', [Validators.required, Validators.email]],
-    phone: ['', Validators.required],
+    phone: ['',
+      [
+        Validators.required,
+        Validators.pattern(/^[0-9]{9}$/)
+      ]],
     address: ['', Validators.required]
   });
 
@@ -115,7 +124,7 @@ export class CustomerForm {
 
         const type = customer.document.length === 8 ? 'DNI' : 'RUC';
 
-        this.form.get('documentType')?.setValue(type, { emitEvent: true });
+        this.form.get('documentType')?.setValue(type, {emitEvent: true});
 
         this.form.patchValue(customer);
 
@@ -157,12 +166,12 @@ export class CustomerForm {
 
         this.router.navigate(['/customer']);
       },
-      error: () => {
+      error: (err) => {
         this.loading.set(false);
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Ocurrió un error al guardar'
+          detail: err.error?.message || 'Ocurrió un error al guardar.',
         });
       }
     });

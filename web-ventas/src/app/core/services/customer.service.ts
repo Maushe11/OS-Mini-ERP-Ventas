@@ -34,4 +34,9 @@ export class CustomerService {
   update(id: number, body: any) {
     return this.http.put<any>(`${API.CUSTOMER.BASE}/${id}`, body);
   }
+
+  /* Eliminar cliente (Solo cuando no tiene órdenes)*/
+  delete(id: number) {
+    return this.http.delete<void>(`${API.CUSTOMER.BASE}/${id}`);
+  }
 }
