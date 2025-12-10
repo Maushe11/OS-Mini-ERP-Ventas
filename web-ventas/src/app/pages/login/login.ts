@@ -87,6 +87,15 @@ export class LoginComponent {
             return;
           }
 
+          if (err.status === 400) {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: err.error.message
+            });
+            return;
+          }
+
           this.messageService.add({
             severity: 'error',
             summary: 'Error inesperado',

@@ -16,11 +16,14 @@
     />
   </p-inputgroup>
 
+  <p-divider></p-divider>
+
   <div class="flex justify-content-end mt-3 mb-3">
     <p-button
       label="Nueva Orden"
       icon="pi pi-plus"
       (click)="openCreateForm()"
+      severity="success"
     ></p-button>
   </div>
 
@@ -77,6 +80,15 @@
             styleClass="mr-2"
             (click)="openDetail(row.idOrder)"
           ></p-button>
+
+          @if (row.status === 'REGISTRADO') {
+            <p-button
+              icon="pi pi-trash"
+              severity="danger"
+              (click)="deleteSalesOrder(row.idOrder)"
+            ></p-button>
+          }
+
         </td>
       </tr>
     </ng-template>
@@ -94,3 +106,5 @@
 </p-panel>
 
 <p-toast></p-toast>
+
+<p-confirmDialog></p-confirmDialog>

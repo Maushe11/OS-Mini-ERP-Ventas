@@ -6,12 +6,14 @@ import {TableModule} from 'primeng/table';
 import {Paginator} from 'primeng/paginator';
 import {Divider} from 'primeng/divider';
 import {Tag} from 'primeng/tag';
-import {MessageService} from 'primeng/api';
+import {ConfirmationService, MessageService} from 'primeng/api';
 import {Router} from '@angular/router';
 import {FormsModule} from '@angular/forms';
-import {DatePipe, DecimalPipe, NgIf} from '@angular/common';
+import {DatePipe, DecimalPipe} from '@angular/common';
 import {ToastModule} from 'primeng/toast';
-import { SalesOrderListItem, SalesOrderService } from '../../../core/services/sales-order.services';
+import {SalesOrderListItem, SalesOrderService} from '../../../core/services/sales-order.services';
+import {InputText} from 'primeng/inputtext';
+import {ConfirmDialog} from 'primeng/confirmdialog';
 
 
 @Component({
@@ -28,7 +30,9 @@ import { SalesOrderListItem, SalesOrderService } from '../../../core/services/sa
     FormsModule,
     ToastModule,
     DecimalPipe,
-    DatePipe
+    DatePipe,
+    InputText,
+    ConfirmDialog
   ],
   providers: [MessageService],
   templateUrl: './sales-order-list.html',
@@ -38,6 +42,7 @@ export class SalesOrderList {
 
   private orderService = inject(SalesOrderService);
   private messageService = inject(MessageService);
+  private confirmationService = inject(ConfirmationService);
   private router = inject(Router);
 
   orders = signal<SalesOrderListItem[]>([]);
@@ -101,6 +106,37 @@ export class SalesOrderList {
 
   openDetail(id: number) {
     this.router.navigate([`/sales-order/view/${id}`]);
+  }
+
+  deleteSalesOrder(id: number) {
+    this.confirmationService.confirm({
+      message: '¿Estás seguro de eliminar esta orden?',
+      header: 'Confirmación',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Sí, eliminar',
+      rejectLabel: 'Cancelar',
+      acceptButtonStyleClass: 'p-button-danger',
+      accept: () => {
+        this.orderService.delete(id).subscribe({
+          next: () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Eliminado',
+              detail: 'La orden fue eliminada correctamente.'
+            });
+
+            this.loadOrders(this.filter(), this.page(), this.size(), this.sortBy());
+          },
+          error: () => {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'No se pudo eliminar la orden.'
+            });
+          }
+        });
+      }
+    });
   }
 
 }

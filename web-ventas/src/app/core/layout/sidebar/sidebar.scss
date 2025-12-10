@@ -21,12 +21,12 @@
   &:hover {
     background: var(--surface-600);
     cursor: pointer;
-    transform: translateX(4px);
+    transform: translateX(8px);
   }
 
   &.active {
     background: var(--primary-500) !important;
-    transform: translateX(6px);
+    transform: translateX(8px);
   }
 }
 

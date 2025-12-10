@@ -12,6 +12,7 @@ import {Tag} from 'primeng/tag';
 import {DecimalPipe} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {CustomerService} from '../../../core/services/customer.service';
+import {InputText} from 'primeng/inputtext';
 
 @Component({
   standalone: true,
@@ -25,7 +26,8 @@ import {CustomerService} from '../../../core/services/customer.service';
     TableModule,
     Tag,
     FormsModule,
-    DecimalPipe
+    DecimalPipe,
+    InputText
   ],
   providers: [CustomerService],
   templateUrl: './product-list.html',
